@@ -20,4 +20,8 @@ class Municipality extends Model
     {
         return $this->hasMany(Barangay::class);
     }
+    public function province()
+    {
+        return $this->belongsTo(Province::class);
+    }
 }

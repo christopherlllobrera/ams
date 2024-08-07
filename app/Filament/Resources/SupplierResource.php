@@ -2,20 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\SupplierResource\Pages;
-use App\Models\Municipality;
+use Filament\Tables;
+use App\Models\Country;
+use Filament\Forms\Get;
 use App\Models\Supplier;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Section;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+use App\Models\Municipality;
+use Filament\Resources\Resource;
+use Illuminate\Support\Collection;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Support\Collection;
+use Filament\Forms\Components\FileUpload;
+use App\Filament\Resources\SupplierResource\Pages;
 
 class SupplierResource extends Resource
 {
@@ -32,17 +33,17 @@ class SupplierResource extends Resource
                 Section::make()
                     ->columns([
                         'sm' => 1,
-                        'md' => 1,
-                        'lg' => 2,
-                        'xl' => 2,
-                        '2xl' => 2,
+                        'md' => 2,
+                        'lg' => 3,
+                        'xl' => 3,
+                        '2xl' => 3,
                     ])
                     ->columnSpan([
                         'sm' => 1,
-                        'md' => 1,
-                        'lg' => 2,
-                        'xl' => 2,
-                        '2xl' => 2,
+                        'md' => 2,
+                        'lg' => 3,
+                        'xl' => 3,
+                        '2xl' => 3,
                     ])
                     ->schema([
                         TextInput::make('supplier_name')
@@ -55,7 +56,7 @@ class SupplierResource extends Resource
                             ->required(),
                         TextInput::make('supplier_contact_phone')
                             ->label('Contact Phone')
-                            ->placeholder('+639')
+                            ->placeholder('Contact Phone')
                             ->required(),
                         TextInput::make('supplier_email')
                             ->email()
@@ -73,55 +74,40 @@ class SupplierResource extends Resource
                             ->suffixIcon('heroicon-m-globe-alt')
                             ->suffixIconColor('gray')
                             ->required(),
-                    ]),
-                Section::make()
-                    ->columns([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 2,
-                        'xl' => 2,
-                        '2xl' => 2,
-                    ])
-                    ->columnSpan([
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 2,
-                        'xl' => 2,
-                        '2xl' => 2,
-                    ])
-                    ->schema([
                         TextArea::make('supplier_address')
                             ->label('Address')
                             ->placeholder('Address')
                             ->columnSpanFull()
                             ->required(),
-                        Select::make('supplier_province')
+                        Select::make('country')
+                            ->label('Country')
+                            ->placeholder('Country')
+                            ->options(Country::all()->pluck('country_name', 'id')->toArray())
+                            ->reactive()
+                            //->afterStateUpdated('country_name', fn ($province, $get) => $province->municipality_name = null)
+                            ->required(),
+                        Select::make('provinces')
                             ->label('Province')
                             ->placeholder('Province')
                             ->relationship('provinces', 'province_name')
                             ->required(),
-                        Select::make('supplier_city')
+                        Select::make('city')
                             ->label('City')
                             ->placeholder('City')
-                            //->relationship('cities', 'municipality_name')
+                            ->relationship('suppliercity', 'municipality_name')
+                            ->reactive()
                             ->required()
-                            ->options(fn (Get $get): Collection => Municipality::query()
-                                ->where('province_id', $get('province_id'))->get()
-                                ->pluck('id', 'id')),
-                        TextInput::make('supplier_country')
-                            ->label('Country')
-                            ->placeholder('Country')
-                            ->required(),
-                        TextInput::make('supplier_zip')
-                            ->label('Zip code')
-                            ->placeholder('Zip code')
-                            ->required(),
+                            // ->options(fn (Get $get): Collection => Municipality::query()
+                            //     ->where('province_id', $get('id'))->get()
+                            //     ->pluck('municipality_name', 'id'))
+                                ,
                         TextArea::make('supplier_notes')
                             ->label('Notes')
                             ->placeholder('Notes')
                             ->columnSpanFull()
                             ->autosize(true)
                             ->rows(3)
+                            ->reactive()
                             ->hint(function ($state) {
                                 $singleSmsCharactersCount = 255;
                                 $charactersCount = strlen($state);
@@ -130,7 +116,6 @@ class SupplierResource extends Resource
                                     $smsCount = ceil(strlen($state) / $singleSmsCharactersCount);
                                 }
                                 $leftCharacters = $singleSmsCharactersCount - ($charactersCount % $singleSmsCharactersCount);
-
                                 return $leftCharacters.' characters';
                             })
                             ->required(),
@@ -139,6 +124,7 @@ class SupplierResource extends Resource
                             ->columnSpanFull()
                             ->required(),
                     ]),
+
             ]);
     }
 

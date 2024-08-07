@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Department;
 use App\Models\User;
 use Filament\Tables\Columns\Summarizers\Count;
 use Illuminate\Support\Facades\Hash;
@@ -35,6 +36,8 @@ class DatabaseSeeder extends Seeder
             RegionSeeder::class,
             ProvinceSeeder::class,
             MunicipalitySeeder::class,
+            DepartmentSeeder::class,
+            UserSeeder::class,
 
         ]);
     }
