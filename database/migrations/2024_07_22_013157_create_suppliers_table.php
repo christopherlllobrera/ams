@@ -15,10 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('supplier_name');
             $table->string('supplier_address')->nullable();
-            $table->string('supplier_city')->nullable();
-            $table->string('supplier_province')->nullable();
-            $table->string('supplier_country')->nullable();
-            $table->string('supplier_zip')->nullable();
+            $table->string('city')->nullable();
+            $table->string('provinces')->nullable();
+            $table->string('country')->nullable();
             $table->string('supplier_contact_name')->nullable();
             $table->string('supplier_contact_phone')->nullable();
             $table->string('supplier_fax')->nullable();
@@ -30,9 +29,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('suppliers');
