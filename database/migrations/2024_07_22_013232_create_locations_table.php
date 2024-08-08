@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('location_name');
             $table->string('parent_location')->nullable();
             $table->string('location_address')->nullable();
-            $table->string('location_city')->nullable();
-            $table->string('location_region')->nullable();
+            $table->string('municipality_id')->constraint()->cascadeOnDelete();
+            $table->string('province_id')->constraint()->cascadeOnDelete();
+            $table->string('region_id')->constraint()->cascadeOnDelete();
             $table->string('location_country')->nullable();
             $table->string('location_zip')->nullable();
             $table->timestamps();

@@ -84,23 +84,20 @@ class SupplierResource extends Resource
                             ->placeholder('Country')
                             ->options(Country::all()->pluck('country_name', 'id')->toArray())
                             ->reactive()
-                            //->afterStateUpdated('country_name', fn ($province, $get) => $province->municipality_name = null)
                             ->required(),
-                        Select::make('provinces')
+                        Select::make('province_id')
                             ->label('Province')
                             ->placeholder('Province')
                             ->relationship('provinces', 'province_name')
-                            ->required(),
-                        Select::make('city')
+                            ->live(),
+                        Select::make('municipality_id')
                             ->label('City')
                             ->placeholder('City')
-                            ->relationship('suppliercity', 'municipality_name')
-                            ->reactive()
-                            ->required()
-                            // ->options(fn (Get $get): Collection => Municipality::query()
-                            //     ->where('province_id', $get('id'))->get()
-                            //     ->pluck('municipality_name', 'id'))
-                                ,
+                            ->preload()
+                            ->searchable()
+                            ->options(fn (Get $get): Collection => Municipality::query()
+                                ->where('province_id', $get('province_id'))->get()
+                                ->pluck('municipality_name', 'id')),
                         TextArea::make('supplier_notes')
                             ->label('Notes')
                             ->placeholder('Notes')
