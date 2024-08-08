@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('supplier_name');
             $table->string('supplier_address')->nullable();
-            $table->string('city')->nullable();
-            $table->string('provinces')->nullable();
+            $table->string('municipality_id')->constrained()->cascadeOnDelete();
+            $table->string('province_id')->constrained()->cascadeOnDelete();
             $table->string('country')->nullable();
             $table->string('supplier_contact_name')->nullable();
             $table->string('supplier_contact_phone')->nullable();

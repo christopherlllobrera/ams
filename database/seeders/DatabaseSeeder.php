@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Department;
+use App\Models\Supplier;
 use App\Models\User;
 use Filament\Tables\Columns\Summarizers\Count;
 use Illuminate\Support\Facades\Hash;
@@ -32,12 +33,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
+            //UserSeeder::class,
             CountrySeeder::class,
             RegionSeeder::class,
             ProvinceSeeder::class,
             MunicipalitySeeder::class,
             DepartmentSeeder::class,
-            UserSeeder::class,
+            BarangaySeeder::class,
+            SupplierSeeder::class,
 
         ]);
     }

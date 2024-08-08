@@ -2,20 +2,25 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\LocationResource\Pages;
-use App\Filament\Resources\LocationResource\RelationManagers;
-use App\Models\Location;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\TextArea;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Get;
+use App\Models\Location;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Models\Municipality;
+use Faker\Provider\ar_EG\Text;
+use Filament\Resources\Resource;
+use Illuminate\Support\Collection;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextArea;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\LocationResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use App\Filament\Resources\LocationResource\RelationManagers;
+use App\Models\Province;
 
 class LocationResource extends Resource
 {
@@ -70,21 +75,37 @@ class LocationResource extends Resource
                                 return $leftCharacters.' characters';
                             })
                         ->required(),
-                    TextInput::make('location_city')
-                        ->label('City')
-                        ->placeholder('City')
-                        ->required(),
-                    TextInput::make('location_region')
-                        ->label('Region')
-                        ->placeholder('Region')
-                        ->required(),
+                        //
                     TextInput::make('location_country')
                         ->label('Country')
                         ->placeholder('Country')
                         ->required(),
+                    Select::make('region_id')
+                        ->label('Region')
+                        ->placeholder('Region')
+                        ->relationship('regions', 'region_name')
+                        ->live()
+                        ->required(),
+                    Select::make('province_id')
+                        ->label('Province')
+                        ->placeholder('Province')
+                        ->preload()
+                        ->options(fn (Get $get): Collection => Province::query()
+                        ->where('region_id', $get('region_id'))->get()
+                        ->pluck('province_name', 'id'))
+                        ->live(),
+                    Select::make('municipality_id')
+                        ->label('City')
+                        ->placeholder('City')
+                        ->preload()
+                        ->searchable()
+                        ->options(fn (Get $get): Collection => Municipality::query()
+                            ->where('province_id', $get('province_id'))->get()
+                            ->pluck('municipality_name', 'id')),
                     TextInput::make('location_zip')
                         ->label('Zip')
                         ->placeholder('Zip')
+                        ->numeric()
                         ->required(),
                 ])
             ]);

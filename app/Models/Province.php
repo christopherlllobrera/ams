@@ -10,7 +10,7 @@ class Province extends Model
     use HasFactory;
 
     protected $fillable = [
-        'regions_id',
+        'region_id',
         'province_name',
     ];
 

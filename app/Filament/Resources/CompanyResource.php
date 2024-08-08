@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use Faker\Core\File;
 use Filament\Tables;
 use App\Models\Company;
 use Filament\Forms\Form;
@@ -10,6 +11,7 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\CompanyResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -31,6 +33,10 @@ class CompanyResource extends Resource
                     TextInput::make('company_name')
                         ->label('Company Name')
                         ->placeholder('Company Name')
+                        ->required(),
+                    FileUpload::make('company_image')
+                        ->label('Company Image')
+                        ->placeholder('Company Image')
                         ->required(),
                 ])
             ]);

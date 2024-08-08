@@ -12,8 +12,8 @@ class Supplier extends Model
     protected $fillable = [
         'supplier_name',
         'supplier_address',
-        'supplier_city',
-        'supplier_province',
+        'municipality_id',
+        'province_id',
         'supplier_country',
         'supplier_zip',
         'supplier_contact_name',
@@ -29,13 +29,8 @@ class Supplier extends Model
     {
         return $this->hasMany(Province::class);
     }
-    public function cities()
+    public function municipality()//city
     {
         return $this->belongsTo(Municipality::class);
     }
-    public function suppliercity()
-    {
-        return $this->hasManyThrough(Municipality::class, Province::class);
-    }
-
 }
