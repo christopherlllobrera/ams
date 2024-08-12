@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             MunicipalitySeeder::class,
             DepartmentSeeder::class,
             BarangaySeeder::class,
-            SupplierSeeder::class,
+            //SupplierSeeder::class,
 
         ]);
     }
