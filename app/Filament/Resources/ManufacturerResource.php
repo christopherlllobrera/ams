@@ -7,15 +7,16 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\Manufacturer;
+use Faker\Provider\ar_EG\Text;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ManufacturerResource\Pages;
 use App\Filament\Resources\ManufacturerResource\RelationManagers;
-use Faker\Provider\ar_EG\Text;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\TextInput;
 
 class ManufacturerResource extends Resource
 {
@@ -81,7 +82,23 @@ class ManufacturerResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('manufacturer_name')
+                    ->label('Manufacturer Name')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('URL')
+                    ->label('URL')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('manufacturer_email')
+                    ->label('Email')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('manufacturer_phone')
+                    ->label('Phone')
+                    ->searchable()
+                    ->sortable(),
+
             ])
             ->filters([
                 //

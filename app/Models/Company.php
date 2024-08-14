@@ -13,4 +13,8 @@ class Company extends Model
         'company_name',
         'company_image',
     ];
+
+    protected $casts = [
+        'company_image' => 'array',
+    ];
 }

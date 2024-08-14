@@ -15,6 +15,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
 
@@ -130,7 +131,51 @@ class SupplierResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('supplier_name')
+                    ->label('Supplier Name')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('supplier_address')
+                    ->label('Address')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('country')
+                    ->label('Country')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('supplier_contact_name')
+                    ->label('Contact Name')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault:false),
+                TextColumn::make('supplier_contact_phone')
+                    ->label('Contact Phone')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('supplier_fax')
+                    ->label('Fax')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('supplier_email')
+                    ->label('Email')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('supplier_website')
+                    ->label('Website')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('supplier_notes')
+                    ->label('Notes')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
             ])
             ->filters([
                 //
