@@ -2,26 +2,24 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Faker\Core\File;
-use Filament\Tables;
+use App\Filament\Resources\CompanyResource\Pages;
 use App\Models\Company;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
-use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\CompanyResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\CompanyResource\RelationManagers;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class CompanyResource extends Resource
 {
     protected static ?string $model = Company::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
+
     protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
@@ -29,16 +27,28 @@ class CompanyResource extends Resource
         return $form
             ->schema([
                 Section::make()
-                ->schema([
-                    TextInput::make('company_name')
-                        ->label('Company Name')
-                        ->placeholder('Company Name')
-                        ->required(),
-                    FileUpload::make('company_image')
-                        ->label('Company Image')
-                        ->placeholder('Company Image')
-                        ->required(),
-                ])
+                    ->schema([
+                        TextInput::make('company_name')
+                            ->label('Company Name')
+                            ->placeholder('Company Name')
+                            ->required(),
+                        FileUpload::make('company_image')
+                            ->label('Company Image')
+                            // ->avatar()
+                            //->circleCropper()
+                            // ->placeholder('Company Image')
+                            ->required()
+                            // ->minFiles(1)
+                            // ->maxFiles(1)
+                            ->preserveFilenames()
+                            ->image()
+                            ->previewable()
+                            ->disk('public')
+                            ->directory('company_images')
+                            ->visibility('public')
+                            ->deletable()
+                            ->downloadable(),
+                    ]),
             ]);
     }
 
@@ -46,7 +56,14 @@ class CompanyResource extends Resource
     {
         return $table
             ->columns([
-                //
+                ImageColumn::make('company_image')
+                    ->label('Company Image')
+                    ->circular(),
+                TextColumn::make('company_name')
+                    ->label('Company Name')
+                    ->searchable()
+                    ->sortable(),
+
             ])
             ->filters([
                 //

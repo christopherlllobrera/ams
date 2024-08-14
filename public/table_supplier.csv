@@ -1,53 +1,45 @@
-id,supplier_name,supplier_address,municipality_id,province_id,country,supplier_contact_name,supplier_contact_phone,Supplier_fax,supplier_email,supplier_website,supplier_notes,image,created_at,updated_at
-1,NEXUS TECHNOLOGIES,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-2,S1 TECHNOLOGIES INC,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-3,COMPLINK,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-4,Trendcom,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-5,SHELLSOFT TECHNOLOGY CORPORATION,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-6,ACCENT MICRO TECHNOLOGIES INC / AMTI,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-7,"Productivity Technologies, Incorporated / PTSI",,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-8,MAXIMUM SOLUTIONS CORPORATION,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-9,Microfhase Corporation,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-10,Complink Marketing Inc,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-11,ADVENTUS,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-12,?,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-13,COLUMBIA TECHNOLOGIES INC / CTI,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-14,ACCEL PRIME TECHNOLOGIES INC / APTI,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-15,MICROVALLEY COMPUTER SUPERSTORE,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-16,TRENDCOM I.T & SOFTWARE SOLUTIONS INC.,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-17,ULTRA SETTING OPC / KWAN  CORP,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-18,MICROPHASE CORPORATION,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-19,MUSTARD SEED SYSTEM CORPORATION,"47 Kamias Rd, Diliman, Quezon City",,,Philippines,,+63(2) 8535-7333 ,,sales@mseedsystems.com,https://mseedsystems.com/,,,2024-08-08,2024-08-08
-20,COMPLINK MARKETING INC.,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-21,"PRODUCTIVITY TECHNOLOGIES SERVICES, INCORPORATED / PTSI",,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-22,PC EXPRESS URQUAN INC,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-23,INFRASYS,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-24,"SSD SATA 2.5"" 512GB",,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-25,"RICOH (PHILIPPINES), INC.","G/F OPPEN Building, 349 Sen. Gil J. Puyat Avenue",,,Philippines,Jeanette Barawid,88659500,88659554,,http://http//www.ricoh.com.ph,,,2024-08-08,2024-08-08
-26,UNIVERSAL ACCESS & SYSTEMS SOLUTIONS INC / UAS,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-27,ePLDT,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-28,MAGNUM COMPUTERWARE GLOBAL CORPORATION,Fort Palm Spring,,,Philippines,,(02) 8810-4500,,,http://,,,2024-08-08,2024-08-08
-29,Uplift ,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-30,CDR King,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-31,OCTAGON,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-32,RT5 Printing Ink Supplies Trading,,,,Philippines,,,,,https://www.facebook.com/rt5printingsupplies/,,,2024-08-08,2024-08-08
-33,RADIUS,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-34,Linksys,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-35,VIGAN INK CARTRIDGES AND SUPPLIES,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-36,TEKNOWSERVE,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-37,STARLINK PHILIPPINES,ONLINE,,,Philippines,,,,,https://www.starlink.com/,,,2024-08-08,2024-08-08
-38,Spectramind Systems Technology Inc.,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-39,Spectramind Systems Technology Inc,"340 Doctor Jose Fernandez Street, Brgy Mauway, ",,,Philippines,,85342506,,,http://,,,2024-08-08,2024-08-08
-40,Mustard Seed Systems Corporation,"47 Kamias Rd, Diliman QC",,,Philippines,,,,,https://mseedsystems.com/,,,2024-08-08,2024-08-08
-41,EDUMAR ENTERPRISES,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-42,HIGHPOINT SERVICES NETWORK PHILIPPINES INC / HSN,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-43,AOC LM726,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-44,ONE DEPOT,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-45,SMART,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-46,"GEO PLAN PHILIPPINES, INC",,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-47,VSTECS Philippines Inc.,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-48,Adobe Online,,,,Philippines,,,,,,,,2024-08-08,2024-08-08
-49,ZKTECO,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-50,"Unison Computer System, Inc",,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-51,TEKPLAY,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
-52,GLOBE,,,,Philippines,,,,,http://,,,2024-08-08,2024-08-08
+1,ACCEL PRIME TECHNOLOGIES INC ,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+2,ACCENT MICRO TECHNOLOGIES INC ,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+3,ADOBE ONLINE,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+4,ADVENTUS,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+5,AOC LM726,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+6,CDR KING,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+7,COLUMBIA TECHNOLOGIES INC ,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+8,COMPLINK,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+9,COMPLINK MARKETING INC,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+10,EDUMAR ENTERPRISES,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+11,EPLDT,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+12,GEO PLAN PHILIPPINES INC,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+13,GLOBE,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+14,HIGHPOINT SERVICES NETWORK PHILIPPINES INC,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+15,INFRASYS,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+16,LINKSYS,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+17,MAGNUM COMPUTERWARE GLOBAL CORPORATION,Fort Palm Spring,1350,1,Philippines,,(02) 8810-4500,,,,,,2024-08-08,2024-08-08
+18,MAXIMUM SOLUTIONS CORPORATION,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+19,MICROPHASE CORPORATION,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+20,MICROVALLEY COMPUTER SUPERSTORE,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+21,MUSTARD SEED SYSTEMS CORPORATION,47 Kamias Rd Diliman QC,1350,1,Philippines,,,,,https://mseedsystems.com/,,,2024-08-08,2024-08-08
+22,NEXUS TECHNOLOGIES,1010 Metropolitan Avenue San Antonio Makati City 1203 Philippines,1350,1,Philippines,,,,,https://nexustech.com.ph/,,,2024-08-08,2024-08-08
+23,OCTAGON,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+24,ONE DEPOT,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+25,PC EXPRESS URQUAN INC,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+26,PRODUCTIVITY TECHNOLOGIES SERVICES INCORPORATED,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+27,RADIUS,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+28,RICOH (PHILIPPINES) INC.,G/F OPPEN Building 349 Sen. Gil J Puyat Avenue,1350,1,Philippines,Jeanette Barawid,88659500,88659554,,http://http//www.ricoh.com.ph,,,2024-08-08,2024-08-08
+29,RT5 PRINTING INK SUPPLIES TRADING,,1350,1,Philippines,,,,,https://www.facebook.com/rt5printingsupplies/,,,2024-08-08,2024-08-08
+30,S1 TECHNOLOGIES INC,70 De Jesus Street Quezon City,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+31,SHELLSOFT TECHNOLOGY CORPORATION,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+32,SMART,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+33,SPECTRAMIND SYSTEMS TECHNOLOGY INC,340 Doctor Jose Fernandez Street Brgy Mauway,1350,1,Philippines,,85342506,,,,,,2024-08-08,2024-08-08
+34,STARLINK PHILIPPINES,ONLINE,1350,1,Philippines,,,,,https://www.starlink.com/,,,2024-08-08,2024-08-08
+35,TEKNOWSERVE,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+36,TEKPLAY,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+37,TRENDOM,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+38,TRENDOM I.T & SOFTWARE SOLUTIONS INC.,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+39,ULTRA SETTING OPC / KWAN CORP,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+40,UNISON COMPUTER SYSTEM INC,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+41,UNIVERSAL ACCESS & SYSTEMS SOLUTIONS INC,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+42,UPLIFT,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+43,VIGAN INK CARTRIDGES AND SUPPLIES,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+44,VSTECS PHILIPPINES INC,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08
+45,ZKTECO,,1350,1,Philippines,,,,,,,,2024-08-08,2024-08-08

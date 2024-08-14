@@ -10,8 +10,9 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = [
-        'category_name',
+        'name',
         'category_description',
-        'category_type'
+        'parent_category',
+        'sub_category',
     ];
 }

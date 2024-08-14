@@ -2,21 +2,22 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Tables;
+use App\Filament\Resources\SupplierResource\Pages;
 use App\Models\Country;
-use Filament\Forms\Get;
-use App\Models\Supplier;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
 use App\Models\Municipality;
-use Filament\Resources\Resource;
-use Illuminate\Support\Collection;
-use Filament\Forms\Components\Select;
+use App\Models\Supplier;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
-use App\Filament\Resources\SupplierResource\Pages;
+use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Illuminate\Support\Collection;
 
 class SupplierResource extends Resource
 {
@@ -51,40 +52,39 @@ class SupplierResource extends Resource
                             ->placeholder('Supplier Name')
                             ->required(),
                         TextInput::make('supplier_contact_name')
+                            //->required()
                             ->label('Contact Name')
-                            ->placeholder('Contact Name')
-                            ->required(),
+                            ->placeholder('Contact Name'),
                         TextInput::make('supplier_contact_phone')
+                            //->required()
                             ->label('Contact Phone')
-                            ->placeholder('Contact Phone')
-                            ->required(),
+                            ->placeholder('Contact Phone'),
                         TextInput::make('supplier_email')
+                            //->required()
                             ->email()
                             ->label('Email')
-                            ->placeholder('Email')
-                            ->required(),
+                            ->placeholder('Email'),
                         TextInput::make('supplier_fax')
                             ->label('Fax')
-                            ->placeholder('Fax')
-                            ->required(),
+                            ->placeholder('Fax'),
                         TextInput::make('supplier_website')
+                            //->required()
                             ->label('Website')
                             ->placeholder('Website')
                             ->url()
                             ->suffixIcon('heroicon-m-globe-alt')
-                            ->suffixIconColor('gray')
-                            ->required(),
+                            ->suffixIconColor('gray'),
                         TextArea::make('supplier_address')
+                            //->required()
                             ->label('Address')
                             ->placeholder('Address')
-                            ->columnSpanFull()
-                            ->required(),
+                            ->columnSpanFull(),
                         Select::make('country')
                             ->label('Country')
                             ->placeholder('Country')
                             ->options(Country::all()->pluck('country_name', 'id')->toArray())
-                            ->reactive()
-                            ->required(),
+                            //->required()
+                            ->reactive(),
                         Select::make('province_id')
                             ->label('Province')
                             ->placeholder('Province')
@@ -94,6 +94,7 @@ class SupplierResource extends Resource
                             ->label('City')
                             ->placeholder('City')
                             ->preload()
+                            ->nullable()
                             ->searchable()
                             ->options(fn (Get $get): Collection => Municipality::query()
                                 ->where('province_id', $get('province_id'))->get()
@@ -105,6 +106,7 @@ class SupplierResource extends Resource
                             ->autosize(true)
                             ->rows(3)
                             ->reactive()
+                            //->required()
                             ->hint(function ($state) {
                                 $singleSmsCharactersCount = 255;
                                 $charactersCount = strlen($state);
@@ -113,13 +115,13 @@ class SupplierResource extends Resource
                                     $smsCount = ceil(strlen($state) / $singleSmsCharactersCount);
                                 }
                                 $leftCharacters = $singleSmsCharactersCount - ($charactersCount % $singleSmsCharactersCount);
+
                                 return $leftCharacters.' characters';
-                            })
-                            ->required(),
+                            }),
                         FileUpload::make('supplier_attachment')
                             ->label('Image')
-                            ->columnSpanFull()
-                            ->required(),
+                            //->required()
+                            ->columnSpanFull(),
                     ]),
 
             ]);
@@ -129,7 +131,51 @@ class SupplierResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('supplier_name')
+                    ->label('Supplier Name')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('supplier_address')
+                    ->label('Address')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('country')
+                    ->label('Country')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('supplier_contact_name')
+                    ->label('Contact Name')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault:false),
+                TextColumn::make('supplier_contact_phone')
+                    ->label('Contact Phone')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('supplier_fax')
+                    ->label('Fax')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('supplier_email')
+                    ->label('Email')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('supplier_website')
+                    ->label('Website')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('supplier_notes')
+                    ->label('Notes')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
             ])
             ->filters([
                 //

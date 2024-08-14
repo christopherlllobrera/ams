@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('manufacturer_name');
             $table->string('URL')->nullable();
-            $table->string('support_url')->nullable();
+            //$table->string('support_url')->nullable();
             $table->string('manufacturer_email')->nullable();
             $table->string('manufacturer_phone')->nullable();
             $table->string('manufacturer_attachment')->nullable();

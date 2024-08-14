@@ -45,13 +45,17 @@ class CategoriesResource extends Resource
                     '2xl' => 2,
                 ])
                 ->schema([
-                    TextInput::make('category_name')
+                    TextInput::make('name')
                         ->label('Category Name')
                         ->placeholder('Category Name')
                         ->required(),
-                    Select::make('parent_category')
+                    TextInput::make('parent_category')
                         ->label('Parent Category')
                         ->placeholder('Parent Category')
+                        ->required(),
+                    Select::make('sub_category')
+                        ->label('Sub Category')
+                        ->placeholder('Sub-Category')
                         ->options([
                             'option1' => 'Option 1',
                             'option2' => 'Option 2',

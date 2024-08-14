@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Department;
+use App\Models\Manufacturer;
 use App\Models\Supplier;
 use App\Models\User;
 use Filament\Tables\Columns\Summarizers\Count;
@@ -41,6 +42,7 @@ class DatabaseSeeder extends Seeder
             DepartmentSeeder::class,
             BarangaySeeder::class,
             SupplierSeeder::class,
+            ManufacturerSeed::class,
 
         ]);
     }
