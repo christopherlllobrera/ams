@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('supplier_email')->nullable();
             $table->string('supplier_website')->nullable();
             $table->string('supplier_notes')->nullable();
-            $table->string('supplier_attachment')->nullable();
+            $table->longText('supplier_attachment')->nullable();
             $table->timestamps();
         });
     }

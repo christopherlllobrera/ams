@@ -108,111 +108,111 @@ class AssetResource extends Resource
                             'xl' => 3,
                             '2xl' => 3,
                         ]),
-                    Wizard\Step::make('Purchase Details')
-                        ->schema([
-                            Select::make('suppliers_id')
-                                ->label('Supplier')
-                                ->placeholder('Supplier'),
-                            TextInput::make('order_number')
-                                ->label('Order Number')
-                                ->placeholder('Order number'),
-                            TextInput::make('purchase_order_number')
-                                ->label('Purchase Order Number')
-                                ->placeholder('Purchase order number'),
-                            TextInput::make('purchase_cost')
-                                ->label('Purchase Cost')
-                                ->placeholder('Purchase cost'),
-                            TextInput::make('purchase_receipt')
-                                ->label('Purchase Receipt')
-                                ->placeholder('Purchase receipt'),
-                            DatePicker::make('purchase_date')
-                                ->label('Purchase Date')
-                                ->placeholder('Purchase Date'),
-                            TextInput::make('delivery_receipt')
-                                ->label('Delivery Receipt')
-                                ->placeholder('Delivery receipt'),
-                            TextInput::make('warranty')
-                                ->label('Warranty')
-                                ->placeholder('Warranty'),
-                            TextArea::make('warranty_terms')
-                                ->label('Warranty Terms')
-                                ->placeholder('Warranty terms')
-                                ->autosize(true)
-                                ->rows(2)
-                                ->columnSpanFull()
-                                ->hint(function ($state) {
-                                    $singleSmsCharactersCount = 255;
-                                    $charactersCount = strlen($state);
-                                    $smsCount = 0;
-                                    if ($charactersCount > 0) {
-                                        $smsCount = ceil(strlen($state) / $singleSmsCharactersCount);
-                                    }
-                                    $leftCharacters = $singleSmsCharactersCount - ($charactersCount % $singleSmsCharactersCount);
-                                    return $leftCharacters.' characters';
-                                })
-                                ->required(),
-                        ])->columns([
-                            'sm' => 1,
-                            'md' => 1,
-                            'lg' => 2,
-                            'xl' => 3,
-                            '2xl' => 3,
-                        ])
-                        ->columnSpan([
-                            'sm' => 1,
-                            'md' => 1,
-                            'lg' => 2,
-                            'xl' => 3,
-                            '2xl' => 3,
-                        ]),
-                    Wizard\Step::make('Specifications')
-                        ->schema([
-                            TextInput::make('operating_system')
-                                ->label('Operating System')
-                                ->placeholder('Operating system'),
-                            TextInput::make('processor')
-                                ->label('Processor')
-                                ->placeholder('Processor'),
-                            TextInput::make('generation')
-                                ->label('Generation')
-                                ->placeholder('Generation'),
-                            TextInput::make('ram')
-                                ->label('RAM')
-                                ->placeholder('RAM'),
-                            TextInput::make('hdd')
-                                ->label('HDD')
-                                ->placeholder('HDD'),
-                            TextInput::make('ssd')
-                                ->label('SSD')
-                                ->placeholder('SSD'),
-                            TextInput::make('gpu')
-                                ->label('GPU')
-                                ->placeholder('GPU'),
-                            TextInput::make('color')
-                                ->label('Color')
-                                ->placeholder('Color'),
-                            TextInput::make('mac_wifi')
-                                ->label('MAC WiFi')
-                                ->placeholder('MAC WiFi'),
-                            TextInput::make('mac_lan')
-                                ->label('MAC LAN')
-                                ->placeholder('MAC LAN'),
-                            TextInput::make('cost_center')
-                                ->label('Cost Center')
-                                ->placeholder('Cost center'),
-                            TextInput::make('trend_micro')
-                                ->label('Trend Micro')
-                                ->placeholder('Trend Micro'),
-                            TextInput::make('rapid_seven')
-                                ->label('Rapid Seven')
-                                ->placeholder('Rapid Seven'),
-                        ])->columns([
-                            'sm' => 1,
-                            'md' => 1,
-                            'lg' => 2,
-                            'xl' => 3,
-                            '2xl' => 3,
-                        ]),
+                    // Wizard\Step::make('Purchase Details')
+                    //     ->schema([
+                    //         Select::make('suppliers_id')
+                    //             ->label('Supplier')
+                    //             ->placeholder('Supplier'),
+                    //         TextInput::make('order_number')
+                    //             ->label('Order Number')
+                    //             ->placeholder('Order number'),
+                    //         TextInput::make('purchase_order_number')
+                    //             ->label('Purchase Order Number')
+                    //             ->placeholder('Purchase order number'),
+                    //         TextInput::make('purchase_cost')
+                    //             ->label('Purchase Cost')
+                    //             ->placeholder('Purchase cost'),
+                    //         TextInput::make('purchase_receipt')
+                    //             ->label('Purchase Receipt')
+                    //             ->placeholder('Purchase receipt'),
+                    //         DatePicker::make('purchase_date')
+                    //             ->label('Purchase Date')
+                    //             ->placeholder('Purchase Date'),
+                    //         TextInput::make('delivery_receipt')
+                    //             ->label('Delivery Receipt')
+                    //             ->placeholder('Delivery receipt'),
+                    //         TextInput::make('warranty')
+                    //             ->label('Warranty')
+                    //             ->placeholder('Warranty'),
+                    //         TextArea::make('warranty_terms')
+                    //             ->label('Warranty Terms')
+                    //             ->placeholder('Warranty terms')
+                    //             ->autosize(true)
+                    //             ->rows(2)
+                    //             ->columnSpanFull()
+                    //             ->hint(function ($state) {
+                    //                 $singleSmsCharactersCount = 255;
+                    //                 $charactersCount = strlen($state);
+                    //                 $smsCount = 0;
+                    //                 if ($charactersCount > 0) {
+                    //                     $smsCount = ceil(strlen($state) / $singleSmsCharactersCount);
+                    //                 }
+                    //                 $leftCharacters = $singleSmsCharactersCount - ($charactersCount % $singleSmsCharactersCount);
+                    //                 return $leftCharacters.' characters';
+                    //             })
+                    //             ->required(),
+                    //     ])->columns([
+                    //         'sm' => 1,
+                    //         'md' => 1,
+                    //         'lg' => 2,
+                    //         'xl' => 3,
+                    //         '2xl' => 3,
+                    //     ])
+                    //     ->columnSpan([
+                    //         'sm' => 1,
+                    //         'md' => 1,
+                    //         'lg' => 2,
+                    //         'xl' => 3,
+                    //         '2xl' => 3,
+                    //     ]),
+                    // Wizard\Step::make('Specifications')
+                    //     ->schema([
+                    //         TextInput::make('operating_system')
+                    //             ->label('Operating System')
+                    //             ->placeholder('Operating system'),
+                    //         TextInput::make('processor')
+                    //             ->label('Processor')
+                    //             ->placeholder('Processor'),
+                    //         TextInput::make('generation')
+                    //             ->label('Generation')
+                    //             ->placeholder('Generation'),
+                    //         TextInput::make('ram')
+                    //             ->label('RAM')
+                    //             ->placeholder('RAM'),
+                    //         TextInput::make('hdd')
+                    //             ->label('HDD')
+                    //             ->placeholder('HDD'),
+                    //         TextInput::make('ssd')
+                    //             ->label('SSD')
+                    //             ->placeholder('SSD'),
+                    //         TextInput::make('gpu')
+                    //             ->label('GPU')
+                    //             ->placeholder('GPU'),
+                    //         TextInput::make('color')
+                    //             ->label('Color')
+                    //             ->placeholder('Color'),
+                    //         TextInput::make('mac_wifi')
+                    //             ->label('MAC WiFi')
+                    //             ->placeholder('MAC WiFi'),
+                    //         TextInput::make('mac_lan')
+                    //             ->label('MAC LAN')
+                    //             ->placeholder('MAC LAN'),
+                    //         TextInput::make('cost_center')
+                    //             ->label('Cost Center')
+                    //             ->placeholder('Cost center'),
+                    //         TextInput::make('trend_micro')
+                    //             ->label('Trend Micro')
+                    //             ->placeholder('Trend Micro'),
+                    //         TextInput::make('rapid_seven')
+                    //             ->label('Rapid Seven')
+                    //             ->placeholder('Rapid Seven'),
+                    //     ])->columns([
+                    //         'sm' => 1,
+                    //         'md' => 1,
+                    //         'lg' => 2,
+                    //         'xl' => 3,
+                    //         '2xl' => 3,
+                    //     ]),
                 ])->columnSpanFull()
             ]);
     }
