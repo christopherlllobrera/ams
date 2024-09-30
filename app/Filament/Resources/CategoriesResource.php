@@ -49,17 +49,15 @@ class CategoriesResource extends Resource
                         ->label('Category Name')
                         ->placeholder('Category Name')
                         ->required(),
-                    TextInput::make('parent_category')
+                    Select::make('parent_category')
                         ->label('Parent Category')
                         ->placeholder('Parent Category')
+                        ->options([])
                         ->required(),
                     Select::make('sub_category')
                         ->label('Sub Category')
                         ->placeholder('Sub-Category')
-                        ->options([
-                            'option1' => 'Option 1',
-                            'option2' => 'Option 2',
-                            'option3' => 'Option 3',]),
+                        ->options([]),
                     TextArea::make('category_description')
                         ->label('Description')
                         ->placeholder('Description')

@@ -34,20 +34,19 @@ class CompanyResource extends Resource
                             ->required(),
                         FileUpload::make('company_image')
                             ->label('Company Image')
-                            // ->avatar()
-                            //->circleCropper()
+
                             // ->placeholder('Company Image')
                             ->required()
                             // ->minFiles(1)
                             // ->maxFiles(1)
                             ->preserveFilenames()
-                            ->image()
+                            //->image()
                             ->previewable()
                             ->disk('public')
                             ->directory('company_images')
                             ->visibility('public')
                             ->deletable()
-                            ->downloadable(),
+                            //->downloadable(),
                     ]),
             ]);
     }
@@ -58,7 +57,8 @@ class CompanyResource extends Resource
             ->columns([
                 ImageColumn::make('company_image')
                     ->label('Company Image')
-                    ->circular(),
+                    ->width(55)
+                    ->height(27),
                 TextColumn::make('company_name')
                     ->label('Company Name')
                     ->searchable()

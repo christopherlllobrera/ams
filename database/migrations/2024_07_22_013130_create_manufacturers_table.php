@@ -18,7 +18,7 @@ return new class extends Migration
             //$table->string('support_url')->nullable();
             $table->string('manufacturer_email')->nullable();
             $table->string('manufacturer_phone')->nullable();
-            $table->string('manufacturer_attachment')->nullable();
+            $table->longText('manufacturer_attachment')->nullable();
             $table->timestamps();
         });
     }
