@@ -27,6 +27,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('home')
             ->path('home')
             ->login()
+            ->brandName('Asset Management System')
+            ->brandLogo(fn() => view('filament.app.logo'))
+            ->brandLogoHeight('3rem')
+            ->darkModeBrandLogo(fn() => view ('filament.app.logodarkmode'))
             ->colors([
                 'primary' => Color::Blue,
             ])

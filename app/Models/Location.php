@@ -20,11 +20,11 @@ class Location extends Model
         'location_zip'
     ];
 
-    public function regions()
+    public function region()
     {
-        return $this->hasMany(Region::class);
+        return $this->belongsTo(Region::class);
     }
-    public function provinces()
+    public function province()
     {
         return $this->belongsTo(Province::class);
     }

@@ -20,6 +20,8 @@ class CompanyResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
 
+    protected static ?string $navigationGroup = 'Content Management';
+
     protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
@@ -57,8 +59,8 @@ class CompanyResource extends Resource
             ->columns([
                 ImageColumn::make('company_image')
                     ->label('Company Image')
-                    ->width(55)
-                    ->height(27),
+                    ->width(60)
+                    ->height(30),
                 TextColumn::make('company_name')
                     ->label('Company Name')
                     ->searchable()

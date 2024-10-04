@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Department extends Model
+class AssetLifeCycle extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
-        'department_id', //remove this
-        'department_name',
-        'department_abbreviation',
+    protected $fillable = [
+        'status',
+        'definition'
     ];
 }

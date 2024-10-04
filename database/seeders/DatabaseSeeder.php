@@ -2,8 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Company;
+use App\Models\Country;
 use App\Models\Department;
+use App\Models\Location;
 use App\Models\Manufacturer;
+use App\Models\Municipality;
+use App\Models\Province;
+use App\Models\Region;
 use App\Models\Supplier;
 use App\Models\User;
 use Filament\Tables\Columns\Summarizers\Count;
@@ -34,15 +40,19 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
-            //UserSeeder::class,
+            UserSeeder::class,
+            AssetLifeCycleSeeder::class,
+            CompanySeeder::class,
+            DepartmentSeeder::class,
+            LocationSeeder::class,
+            SupplierSeeder::class,
+            ManufacturerSeed::class,
             CountrySeeder::class,
             RegionSeeder::class,
             ProvinceSeeder::class,
             MunicipalitySeeder::class,
-            DepartmentSeeder::class,
             BarangaySeeder::class,
-            SupplierSeeder::class,
-            ManufacturerSeed::class,
+
 
         ]);
     }
