@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Asset_Model extends Model
+class AssetModel extends Model
 {
     use HasFactory;
 
@@ -13,10 +13,6 @@ class Asset_Model extends Model
         'asset_model_name',
         'asset_model_number',
         'manufacturers_id',
-        'categories_id',
-        'depreciation',
         'model_notes'
     ];
-
 }
-

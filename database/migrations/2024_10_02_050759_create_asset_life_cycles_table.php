@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('asset_life_cycles', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('category_description')->nullable();
-            $table->string('parent_category')->nullable();
-            $table->string('sub_category')->nullable();
+            $table->string('status');
+            $table->longText('definition');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('asset_life_cycles');
     }
 };

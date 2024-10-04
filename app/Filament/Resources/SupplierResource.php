@@ -24,6 +24,8 @@ class SupplierResource extends Resource
     protected static ?string $model = Supplier::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
+    
+    protected static ?string $navigationGroup = 'Content Management';
 
     protected static ?int $navigationSort = 7;
 
