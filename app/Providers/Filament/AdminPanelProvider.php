@@ -17,6 +17,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Filament\Pages\Auth\Login;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -26,13 +27,13 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('home')
             ->path('home')
-            ->login()
+            ->login(Login::class)
             ->brandName('Asset Management System')
             ->brandLogo(fn() => view('filament.app.logo'))
             ->brandLogoHeight('3rem')
             ->darkModeBrandLogo(fn() => view ('filament.app.logodarkmode'))
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::Orange,
             ])
             ->spa()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
