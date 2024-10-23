@@ -22,6 +22,8 @@ class AssetLifeCycleResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
+    protected static ?string $navigationLabel = 'Asset Cycle';
+
     public static function form(Form $form): Form
     {
         return $form
