@@ -12,7 +12,6 @@ class Manufacturer extends Model
     protected $fillable = [
         'manufacturer_name',
         'URL',
-        'support_url',
         'manufacturer_email',
         'manufacturer_phone',
         'manufacturer_attachment'

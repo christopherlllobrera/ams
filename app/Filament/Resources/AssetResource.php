@@ -4,8 +4,11 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\AssetResource\Pages;
 use App\Models\Asset;
+use App\Models\AssetLifeCycle;
 use App\Models\AssetModel;
+use App\Models\Company;
 use App\Models\Department;
+use App\Models\Location;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -14,6 +17,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class AssetResource extends Resource
@@ -41,7 +45,7 @@ class AssetResource extends Resource
                             ->label('Asset Name')
                             ->placeholder('Company Asset Number')
                             ->required(),
-                        Select::make('asset_models_id')
+                        Select::make('asset_model_id')
                             ->label('Asset Type')
                             ->options(
                                 AssetModel::query()->pluck('asset_model_name', 'id')
@@ -52,7 +56,7 @@ class AssetResource extends Resource
                         TextInput::make('serial_number')
                             ->label('Serial Number')
                             ->placeholder('Serial number'),
-                        Select::make('categories')
+                        Select::make('categories_id')
                             ->label('Category')
                             ->searchable()
                             ->preload()
@@ -179,9 +183,9 @@ class AssetResource extends Resource
                                 ],
 
                             ]),
-                        Select::make('status')
+                        Select::make('asset_life_cycle_id') //status_id
                             ->label('Status')
-                            ->relationship('AssetLifeCycle', 'status')
+                            ->options(AssetLifeCycle::all()->pluck('status', 'id')->toArray())
                             ->placeholder('Status')
                             ->columnStart(3),
                         TextArea::make('asset_note')
@@ -224,15 +228,17 @@ class AssetResource extends Resource
                     ]),
                 Section::make('Asset Location')
                     ->schema([
-                        Select::make('companies_id')
+                        Select::make('company_id')
                             ->label('Company')
                             ->placeholder('Select a company')
                             ->columnStart(2)
-                            ->relationship('company', 'company_name'),
-                        Select::make('departments_id')
+                            ->options(Company::all()->pluck('company_name', 'id')->toArray())
+                            ,
+                        Select::make('department_id')
                             ->label('Department')
                             ->placeholder('Select a department')
-                            ->relationship('department', 'department_name')
+                            // ->relationship('department', 'department_name')
+                            ->options(Department::all()->pluck('department_name', 'id')->toArray())
                         ,
                         Select::make('project_id')
                             ->label('Project')
@@ -243,10 +249,11 @@ class AssetResource extends Resource
                                 'Project 2' => 'Project 2',
                                 'Project 3' => 'Project 3',
                             ]),
-                        Select::make('locations_id')
+                        Select::make('location_id')
                             ->label('Location')
                             ->placeholder('Location')
-                            ->relationship('location', 'location_name'),
+                            ->options(Location::all()->pluck('location_name', 'id')->toArray())
+
                     ])
                     ->columns([
                         'sm' => 1,
@@ -270,7 +277,17 @@ class AssetResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('asset_tag')->label('Asset Tag'),
+                TextColumn::make('asset_name')->label('Asset Name'),
+                TextColumn::make('AssetModel.asset_model_name')->label('Model'),
+                TextColumn::make('serial_number')->label('Serial No'),
+                TextColumn::make('categories_id')->label('Categories'),
+                TextColumn::make('AssetLifeCycle.status')->label('Status'),
+                TextColumn::make('company.company_name')->label('Company'), 
+                TextColumn::make('department.department_name')->label('Department'),
+                TextColumn::make('project_id')->label('Project'),
+                TextColumn::make('location.location_name')->label('Location'),
+
             ])
             ->filters([
                 //
