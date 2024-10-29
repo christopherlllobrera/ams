@@ -15,16 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('asset_tag');
             $table->string('asset_name');
-            $table->string('asset_models_id')->constrained()->cascadeOnDelete()->nullable();
+            $table->string('asset_model_id')->constrained()->cascadeOnDelete()->nullable();
             $table->string('serial_number')->nullable();
             $table->string('categories_id')->nullable();
-            $table->string('status_id')->nullable();//make this enum
+            $table->string('asset_life_cycle_id')->nullable();
             $table->longText('asset_note')->nullable();
-            $table->string('companies_id')->constrained()->cascadeOnDelete()->nullable();
-            $table->string('departments_id')->constrained()->cascadeOnDelete()->nullable();
+            $table->string('company_id')->constrained()->cascadeOnDelete()->nullable();
+            $table->string('department_id')->constrained()->cascadeOnDelete()->nullable();
             $table->string('project_id')->constrained()->cascadeOnDelete()->nullable();
-            $table->string('locations_id')->constrained()->cascadeOnDelete()->nullable();
-            $table->longText('asset_attachement')->nullable();
+            $table->string('location_id')->constrained()->cascadeOnDelete()->nullable();
+            $table->longText('asset_attachment')->nullable();
             $table->timestamps();
         });
     }

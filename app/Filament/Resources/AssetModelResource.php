@@ -6,12 +6,14 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use App\Models\AssetModel;
 use Filament\Tables\Table;
+use App\Models\Manufacturer;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use App\Filament\Resources\AssetModelResource\Pages;
+use Filament\Tables\Columns\TextColumn;
 
 class AssetModelResource extends Resource
 {
@@ -53,12 +55,13 @@ class AssetModelResource extends Resource
                             ->placeholder('Model Name')
                             ->columnSpanFull()
                             ->required(),
-                        Select::make('asset_model_number')//select
-                            ->label('Model No.')
-                            ->required(),
-                        Select::make('manufacturers_id')
+                        // Select::make('asset_model_number')//select
+                        //     ->label('Model No.')
+                        //     ->required(),
+                        Select::make('manufacturer_id')
                             ->label('Manufacturer')
                             ->placeholder('Manufacturer')
+                            ->options(Manufacturer::all()->pluck('manufacturer_name', 'id')->toArray())
                             ->required(),
                         TextArea::make('model_notes')
                             ->label('Model Notes')
@@ -77,7 +80,8 @@ class AssetModelResource extends Resource
 
                                 return $leftCharacters.' characters';
                             })
-                            ->required(),
+                            // ->required()
+                            ,
                     ]),
             ]);
     }
@@ -86,7 +90,9 @@ class AssetModelResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('asset_model_name'),
+                TextColumn::make('Manufacturer.manufacturer_name'),
+                TextColumn::make('model_notes'),
             ])
             ->filters([
                 //

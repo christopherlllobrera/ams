@@ -12,7 +12,12 @@ class AssetModel extends Model
     protected $fillable = [
         'asset_model_name',
         'asset_model_number',
-        'manufacturers_id',
+        'manufacturer_id',
         'model_notes'
     ];
+
+    public function Manufacturer()
+    {
+        return $this->belongsTo(Manufacturer::class);
+    }
 }

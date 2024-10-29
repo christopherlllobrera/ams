@@ -16,13 +16,13 @@ class AssetLifeCycleResource extends Resource
 {
     protected static ?string $model = AssetLifeCycle::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-path-rounded-square';
+    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
 
     protected static ?string $navigationGroup = 'Content Management';
 
     protected static ?int $navigationSort = 2;
 
-    protected static ?string $navigationLabel = 'Asset Cycle';
+    protected static ?string $navigationLabel = 'Asset Life Cycle';
 
     public static function form(Form $form): Form
     {

@@ -14,23 +14,28 @@ class Asset extends Model
 
         'asset_tag',
         'asset_name',
-        'asset_models_id',
+        'asset_model_id',
         'serial_number',
-        'status_id',
-        'companies_id',
-        'departments_id',
+        'asset_life_cycle_id',
+        'company_id',
+        'department_id',
         'project_id',
         'cost_center',
-        'locations_id',
+        'location_id',
         'asset_note',
         'assigned_to',
         'assigned_date',
         'return_date',
+        'categories_id',
+        'asset_attachment'
     ];
 
     public function company()
     {
-        return $this->hasMany(Company::class);
+        return $this->belongsTo(Company::class);
+    }
+    public function AssetModel(){
+        return $this->belongsTo(AssetModel::class);
     }
     public function AssetLifeCycle()
     {
