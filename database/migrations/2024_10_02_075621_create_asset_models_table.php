@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('asset_model_name')->nullable();
             $table->string('asset_model_number')->nullable();
-            $table->foreignId('manufacturer_id')->constrained()->cascadeOnDelete()->nullable();
+            $table->string('manufacturer_id')->constrained()->cascadeOnDelete()->nullable();
             $table->longText('model_notes')->nullable();
             $table->timestamps();
         });

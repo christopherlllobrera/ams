@@ -35,6 +35,9 @@ class PermissionSeeder extends Seeder
         Role::create(['name' => 'user'])
             ->givePermissionTo([]);
 
+        Role::create(['name' => 'AMS-admin'])
+            ->givePermissionTo([]);
+
         $this->command->info('Roles created successfully!');
 
         // Start transaction for better performance

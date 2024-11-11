@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->string('location_name');
+            $table->string('location_name')->nullable();
             $table->string('parent_location')->nullable();
             $table->string('location_address')->nullable();
-            $table->string('municipality_id')->constraint()->cascadeOnDelete();
-            $table->string('province_id')->constraint()->cascadeOnDelete();
-            $table->string('region_id')->constraint()->cascadeOnDelete();
+            $table->string('municipality_id')->constraint()->cascadeOnDelete()->nullable();
+            $table->string('province_id')->constraint()->cascadeOnDelete()->nullable();
+            $table->string('region_id')->constraint()->cascadeOnDelete()->nullable();
             $table->string('location_country')->nullable();
             $table->string('location_zip')->nullable();
             $table->timestamps();

@@ -2,23 +2,31 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AssetResource\Pages;
-use App\Models\Asset;
-use App\Models\AssetLifeCycle;
-use App\Models\AssetModel;
-use App\Models\Company;
-use App\Models\Department;
-use App\Models\Location;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextArea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use DatePeriod;
+use Carbon\Carbon;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
+use App\Models\Asset;
+use App\Models\Company;
+use App\Models\Project;
+use App\Models\Location;
+use Filament\Forms\Form;
+use App\Models\AssetModel;
+use App\Models\Department;
 use Filament\Tables\Table;
+use Filament\Support\RawJs;
+use Illuminate\Support\Str;
+use App\Models\AssetLifeCycle;
+use App\Models\AssetCategories;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextArea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
+use App\Filament\Resources\AssetResource\Pages;
+use App\Models\Supplier;
 
 class AssetResource extends Resource
 {
@@ -35,186 +43,98 @@ class AssetResource extends Resource
         return $form
             ->schema([
                 Section::make('Asset Details')
-                    // ->compact()
                     ->schema([
-                        TextInput::make('asset_tag')
-                            ->label('Asset Tag')
-                            ->required()
-                            ->unique(ignoreRecord: true),
-                        TextInput::make('asset_name')
-                            ->label('Asset Name')
-                            ->placeholder('Company Asset Number')
-                            ->required(),
-                        Select::make('asset_model_id')
-                            ->label('Asset Type')
+                        Select::make('company_id')->label('Company')
+                            ->options(Company::query()->pluck('company_name', 'id'))
+                            ->searchable()->preload(),
+                        TextInput::make('asset_code')->label('Asset Code')->hint('Generated from SAP'),
+                        TextInput::make('serial_number')->label('Serial Number'),
+                        Select::make('asset_type')
+                            ->label('Type')
                             ->options(
-                                AssetModel::query()->pluck('asset_model_name', 'id')
+                                AssetCategories::query()
+                                    ->distinct()
+                                    ->pluck('asset_type', 'asset_type')
+                                    ->toArray()
                             )
-                            ->searchable()
-                            ->preload()
-                            ->placeholder('Select an asset type'),
-                        TextInput::make('serial_number')
-                            ->label('Serial Number')
-                            ->placeholder('Serial number'),
-                        Select::make('categories_id')
-                            ->label('Category')
-                            ->searchable()
-                            ->preload()
-                            ->options([
-                                'Computers' => [
-                                    'Desktop' => 'Desktop',
-                                    'Laptop' => 'Laptop',
-                                    'Workstation' => 'Workstation',
-                                ],
-                                'Mobile Devices' => [
-                                    'Smartphone' => 'Smartphone',
-                                    'Tablet' => 'Tablet',
-                                    'Wearable' => 'Wearable',
-                                ],
-                                'Networking Equipment' => [
-                                    'Router' => 'Router',
-                                    'Switch' => 'Switch',
-                                    'Access Point' => 'Access Point',
-                                    'Network Rack' => 'Network Rack',
-                                    'Network Cabinet' => 'Network Cabinet',
-                                    'VPN' => 'VPN',
-                                    'Intrusion Detection Systems (IDS)' => 'Intrusion Detection Systems (IDS)',
-                                    'Patch Panels' => 'Patch Panels',
-                                    'Cable Management Tools' => 'Cable Management Tools',
-                                ],
-                                'Storage Devices' => [
-                                    'Hard Disk Drive' => 'Hard Disk Drive',
-                                    'Solid State Drive' => 'Solid State Drive',
-                                    'Network Attached Storage (NAS)' => 'Network Attached Storage (NAS)',
-                                    'Backup Drive' => 'Backup Drive',
-                                    'Flash Drive' => 'Flash Drive',
-                                    'Memory Card' => 'Memory Card',
-
-                                ],
-                                'Peripherals' => [
-                                    'Monitor' => 'Monitor',
-                                    'Keyboard' => 'Keyboard',
-                                    'Mouse' => 'Mouse',
-                                    'Printer' => 'Printer',
-                                    'Scanner' => 'Scanner',
-                                    'Projector' => 'Projector',
-                                    'Webcam' => 'Webcam',
-                                    'Speaker' => 'Speaker',
-                                    'Headset' => 'Headset',
-                                    'Microphone' => 'Microphone',
-                                    'Docking Station' => 'Docking Station',
-                                    'USB Hub' => 'USB Hub',
-                                    'UPS' => 'UPS',
-                                    'Surge Protector' => 'Surge Protector',
-                                    'Charger' => 'Charger',
-                                    'Battery' => 'Battery',
-                                    'Power Supply' => 'Power Supply',
-                                    'Laptop Bag' => 'Laptop Bag',
-                                ],
-                                'Servers' => [
-                                    'Rack Server' => 'Rack Server',
-                                    'Blade Server' => 'Blade Server',
-                                    'Tower Server' => 'Tower Server',
-                                    'Micro Server' => 'Micro Server',
-                                    'Mainframe' => 'Mainframe',
-                                    'Supercomputer' => 'Supercomputer',
-                                    'Physical Server' => 'Physical Server',
-                                ],
-                                'Wiring and Cabling' => [
-                                    'Ethernet Cable' => 'Ethernet Cable',
-                                    'Fiber Optic Cable' => 'Fiber Optic Cable',
-                                    'Coaxial Cable' => 'Coaxial Cable',
-                                    'Twisted Pair Cable' => 'Twisted Pair Cable',
-                                    'Patch Cable' => 'Patch Cable',
-                                    'Cable Tester' => 'Cable Tester',
-                                    'Cable Crimper' => 'Cable Crimper',
-                                    'Cable Stripper' => 'Cable Stripper',
-                                    'Cable Ties' => 'Cable Ties',
-                                    'Cable Labels' => 'Cable Labels',
-                                    'Cable Management Tools' => 'Cable Management Tools',
-                                ],
-                                'Office Supplies & Equipment' => [
-                                    'Desk' => 'Desk',
-                                    'Chair' => 'Chair',
-                                    'Filing Cabinet' => 'Filing Cabinet',
-                                    'Shelves' => 'Shelves',
-                                    'Whiteboard' => 'Whiteboard',
-                                    'Projector Screen' => 'Projector Screen',
-                                    'Stapler' => 'Stapler',
-                                    'Hole Punch' => 'Hole Punch',
-                                    'Scissors' => 'Scissors',
-                                    'Notebooks' => 'Notebooks',
-                                    'Laminator' => 'Laminator',
-                                    'Shredder' => 'Shredder',
-                                    'Calculator' => 'Calculator',
-                                ],
-                                'Consumables' => [
-                                    'Ink Cartridges' => 'Ink Cartridges',
-                                    'Toner Cartridges' => 'Toner Cartridges',
-                                    'Printer Paper' => 'Printer Paper',
-                                    'Batteries' => 'Batteries',
-                                    'Tapes' => 'Tapes',
-                                    'Labels' => 'Labels',
-                                    'Stamps' => 'Stamps',
-                                    'Envelopes' => 'Envelopes',
-                                    'Pens' => 'Pens',
-                                    'Pencils' => 'Pencils',
-                                    'Highlighters' => 'Highlighters',
-                                    'Markers' => 'Markers',
-                                    'Rubber Bands' => 'Rubber Bands',
-                                    'Paper Clips' => 'Paper Clips',
-                                    'Binder Clips' => 'Binder Clips',
-                                    'Staples' => 'Staples',
-                                    'Rubber Stamps' => 'Rubber Stamps',
-                                    'Sticky Notes' => 'Sticky Notes',
-                                    'Tape' => 'Tape',
-                                    'Glue' => 'Glue',
-                                    'Scissors' => 'Scissors',
-                                    'Erasers' => 'Erasers',
-                                    'Sharpeners' => 'Sharpeners',
-                                    'Staplers' => 'Staplers',
-                                    'Hole Punches' => 'Hole Punches',
-                                    'Laminating Pouches' => 'Laminating Pouches',
-                                    'Binding Combs' => 'Binding Combs',
-                                    'Shredder Bags' => 'Shredder Bags',
-                                ],
-                                'Other' => [
-                                    'Other' => 'Other',
-                                ],
-
-                            ]),
-                        Select::make('asset_life_cycle_id') //status_id
-                            ->label('Status')
-                            ->options(AssetLifeCycle::all()->pluck('status', 'id')->toArray())
-                            ->placeholder('Status')
-                            ->columnStart(3),
-                        TextArea::make('asset_note')
-                            ->label('Notes')
-                            ->reactive()
-                            ->placeholder('Notes')
-                            // ->autosize(true)
-                            ->rows(3)
-                            ->columnSpan('full')
-                            // ->columns(1)
-                            ->hint(function ($state) {
-                                $TotalCharactersCount = 255;
-                                $charactersCount = strlen($state);
-                                $textcount = 0;
-                                if ($charactersCount > 0) {
-                                    $textcount = ceil(strlen($state) / $TotalCharactersCount);
+                            ->live()
+                            // ->afterStateUpdated(fn (callable $set) => $set('asset_categories', null))
+                            ->afterStateUpdated(function (callable $get , callable $set) {
+                                $year = Carbon::now()->format('Y');
+                                // Define type codes mapping
+                                $typeCodeMap = [
+                                    'Others' => '00',
+                                    'Computer' => '01',
+                                    'Communication Equipment' => '02',
+                                    'Networking Equipment' => '03',
+                                    'Storage Devices' => '04',
+                                    'Servers' => '05',
+                                    'Peripherals' => '06',
+                                    'Office Supplies & Equipment' => '07',
+                                    'Consumables' => '08',
+                                    'Wiring' => '09',
+                                    'Other' => '10'
+                                ];
+                                // Get the selected asset type
+                                $selectedType = $get('asset_type');
+                                $typeCode = $typeCodeMap[$selectedType] ?? '00';
+                                // Get the last asset with the same type code
+                                $lastAsset = Asset::where('company_number', 'LIKE', "OE-{$typeCode}-{$year}-%")
+                                    ->orderBy('company_number', 'desc')
+                                    ->first();
+                                if ($lastAsset) {
+                                    $parts = explode('-', $lastAsset->company_number);
+                                    $lastNumber = (int) $parts[3];
+                                    $newNumber = str_pad(++$lastNumber, 4, '0', STR_PAD_LEFT);
+                                } else {
+                                    $newNumber = '0001';
                                 }
-                                $leftCharacters = $TotalCharactersCount - ($charactersCount % $TotalCharactersCount);
+                                return $set('company_number', "OE-{$typeCode}-{$year}-{$newNumber}");
 
-                                return $leftCharacters.' characters';
-                            }),
-                        FileUpload::make('asset_attachement')
-                            ->label('Asset Image')
+                            })
+                            ->searchable()->preload(),
+                        Select::make('asset_categories')
+                            ->label('Categories')
+                            ->options(function (callable $get) {
+                                $assetType = $get('asset_type');
+                                if (!$assetType) {
+                                    return [];
+                                }
+                                return AssetCategories::query()
+                                    ->where('asset_type', $assetType)
+                                    ->pluck('categories', 'categories')
+                                    ->toArray();
+                            })
+                            ->reactive()
+                            ->disabled(fn (callable $get) => !$get('asset_type')),
+                        TextInput::make('company_number')->label('Company Number')
+                            ->dehydrated()
+                            ->disabled(),
+                        Select::make('asset_model_id')->label('Asset Model')
+                            ->options(AssetModel::query()->pluck('asset_model_name', 'id'))
+                            ->searchable()->preload()
+                            ->columnStart([
+                                'xl' => 2,
+                                'md' => 1
+                            ]),
+                        Select::make('asset_status')->label('Status')
+                            ->options(AssetLifeCycle::query()->pluck('status', 'id')),
+                        Select::make('location_id')->label('Location')
+                            ->options(Location::all()->pluck('location_name', 'id'))
+                            ->columnStart(1),
+                        Select::make('department_id')->label('Department')
+                            ->options(Department::all()->pluck('department_name', 'id'))
+                            ->searchable()->preload(),
+                        Select::make('project_id')->label('Cost Center/WBS')
+                            ->options(Project::query()->pluck('project_name', 'id'))
+                            ->searchable()->preload(),
+                        TextArea::make('asset_note')->label('Asset Note')
                             ->columnSpanFull()
-                            ->hint('Max file size: 2MB'),
+                            ->rows(3),
                     ])
                     ->columns([
                         'sm' => 1,
-                        'md' => 1,
+                        'md' => 2,
                         'lg' => 2,
                         'xl' => 3,
                         '2xl' => 3,
@@ -226,34 +146,50 @@ class AssetResource extends Resource
                         'xl' => 3,
                         '2xl' => 3,
                     ]),
-                Section::make('Asset Location')
+                Section::make('Purchase Details')
                     ->schema([
-                        Select::make('company_id')
-                            ->label('Company')
-                            ->placeholder('Select a company')
-                            ->columnStart(2)
-                            ->options(Company::all()->pluck('company_name', 'id')->toArray())
-                            ,
-                        Select::make('department_id')
-                            ->label('Department')
-                            ->placeholder('Select a department')
-                            // ->relationship('department', 'department_name')
-                            ->options(Department::all()->pluck('department_name', 'id')->toArray())
-                        ,
-                        Select::make('project_id')
-                            ->label('Project')
-                            ->columnStart(2)
-                            ->placeholder('Select a project')
-                            ->options([
-                                'Project 1' => 'Project 1',
-                                'Project 2' => 'Project 2',
-                                'Project 3' => 'Project 3',
-                            ]),
-                        Select::make('location_id')
-                            ->label('Location')
-                            ->placeholder('Location')
-                            ->options(Location::all()->pluck('location_name', 'id')->toArray())
+                        Select::make('supplier_name')->label('Supplier Name')
+                            ->options(Supplier::query()->pluck('supplier_name', 'id')),
+                        TextInput::make('depreciation_cost')->label('Depreciation Cost')
+                            ->mask(RawJs::make('$money($input)'))
+                            ->inputMode('decimal'),
+                        Select::make('depreciation_year')->label('Depreciation Year')
+                            ->options(collect(range(2020, 2035))->reverse()->mapWithKeys(fn ($year) => [$year => $year])),
+                        DatePicker::make('EOL_date')->label('End Of Life'),
 
+                        TextInput::make('purchase_receipt')->label('Purchase Receipt'),
+                        DatePicker::make('purchase_date')->label('Purchase Date'),
+                        TextInput::make('purchase_order')->label('Purchase Order'),
+                        TextInput::make('purchase_cost')->label('Purchase Cost')
+                            ->mask(RawJs::make('$money($input)'))
+                            ->inputMode('decimal'),
+                        TextInput::make('delivery_receipt')->label('Delivery Receipt')
+                            ->columnStart(3),
+                        TextInput::make('good_receipt')->label('Good Receipt'),
+                    ])
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 3,
+                        'xl' => 4,
+                        '2xl' => 4,
+                    ])
+                    ->columnSpan([
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 2,
+                        'xl' => 3,
+                        '2xl' => 3,
+                    ]),
+                    Section::make('Specification')
+                    ->schema([
+                        TextInput::make('operating_system')->label('Operating System'),
+                        TextInput::make('processor')->label('Processor'),
+                        TextInput::make('RAM')->label('RAM'),
+                        TextInput::make('storage')->label('Storage'),
+                        TextInput::make('GPU')->label('GPU'),
+                        TextInput::make('color')->label('Color'),
+                        TextInput::make('MAC_address')->label('MAC Address'),
                     ])
                     ->columns([
                         'sm' => 1,
@@ -277,16 +213,7 @@ class AssetResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('asset_tag')->label('Asset Tag'),
-                TextColumn::make('asset_name')->label('Asset Name'),
-                TextColumn::make('AssetModel.asset_model_name')->label('Model'),
-                TextColumn::make('serial_number')->label('Serial No'),
-                TextColumn::make('categories_id')->label('Categories'),
-                TextColumn::make('AssetLifeCycle.status')->label('Status'),
-                TextColumn::make('company.company_name')->label('Company'), 
-                TextColumn::make('department.department_name')->label('Department'),
-                TextColumn::make('project_id')->label('Project'),
-                TextColumn::make('location.location_name')->label('Location'),
+
 
             ])
             ->filters([
