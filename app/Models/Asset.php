@@ -12,22 +12,50 @@ class Asset extends Model
 
     protected $fillable = [
 
-        'asset_tag',
-        'asset_name',
+        'company_id',
+        'company_number',
+        'asset_code',
+        'asset_type',
+        'asset_categories',
         'asset_model_id',
         'serial_number',
-        'asset_life_cycle_id',
-        'company_id',
+        'asset_status',
+        'location_id',
         'department_id',
         'project_id',
-        'cost_center',
-        'location_id',
         'asset_note',
-        'assigned_to',
-        'assigned_date',
-        'return_date',
-        'categories_id',
-        'asset_attachment'
+
+        'depreciation_cost',
+        'depreciation_year',
+        'EOL_date',
+        'supplier_name',
+        'purchase_receipt',
+        'purchase_date',
+        'purchase_order',
+        'purchase_cost',
+        'delivery_receipt',
+        'good_receipt',
+
+        //specification
+        'operating_system',
+        'processor',
+        'RAM',
+        'storage',
+        'GPU',
+        'color',
+        'MAC_address',
+
+        //user
+        'full_name',
+        'personnel number',
+        'job_title',
+        'location',
+        'department',
+        'project_name',
+        'cost_center',
+        'deployment_date',
+        'return_date'
+
     ];
 
     public function company()

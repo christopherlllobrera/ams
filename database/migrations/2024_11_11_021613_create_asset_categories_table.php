@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('asset_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('cost_center')->nullable()->constrained()->cascadeOnDelete();
-            $table->string('project_name')->nullable();
+            $table->string('asset_type')->nullable();
+            $table->string('categories')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('asset_categories');
     }
 };

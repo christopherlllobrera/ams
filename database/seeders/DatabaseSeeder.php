@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AssetCategories;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
 use App\Models\Region;
@@ -41,6 +42,9 @@ class DatabaseSeeder extends Seeder
             BarangaySeeder::class,
             // UserSeeder::class,
             PermissionSeeder::class,
+            AssetCategoriesSeeder::class,
+            ProjectSeeder::class,
+            ModelSeeder::class,
         ]);
     }
 }
