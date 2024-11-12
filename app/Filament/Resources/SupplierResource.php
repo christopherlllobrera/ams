@@ -24,10 +24,10 @@ class SupplierResource extends Resource
     protected static ?string $model = Supplier::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
-    
-    protected static ?string $navigationGroup = 'Content Management';
 
-    protected static ?int $navigationSort = 7;
+    protected static ?string $navigationGroup = 'Module Management';
+
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
@@ -66,9 +66,6 @@ class SupplierResource extends Resource
                             ->email()
                             ->label('Email')
                             ->placeholder('Email'),
-                        TextInput::make('supplier_fax')
-                            ->label('Fax')
-                            ->placeholder('Fax'),
                         TextInput::make('supplier_website')
                             //->required()
                             ->label('Website')
@@ -166,7 +163,7 @@ class SupplierResource extends Resource
                     ->label('Email')
                     ->searchable()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('supplier_website')
                     ->label('Website')
                     ->searchable()

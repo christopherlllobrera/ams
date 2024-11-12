@@ -13,26 +13,20 @@ return new class extends Migration
     {
         Schema::create('licenses', function (Blueprint $table) {
             $table->id();
-            $table->string('software_name');
-            $table->foreignId('categories_id');//foreign key
+            $table->string('software_name')->nullable();
+            $table->string('categories_id')->nullable();//foreign key
             $table->string('product_key')->nullable();
-            $table->integer('seat')->nullable();
-            $table->string('company_name')->nullable();
-            $table->foreignId('manufacturers_id'); //foreign key
-            $table->string('license_to_name')->nullable();
-            $table->string('license_to_email')->nullable();
-            $table->boolean('reassignable')->nullable();
+            $table->string('seat')->nullable();
+            $table->string('supplier_id')->nullable();
+            $table->string('manufacturer_id')->nullable(); //foreign key
+            $table->string('registered_name')->nullable();
+            $table->string('registered_email')->nullable();
             $table->string('license_order_number')->nullable();
             $table->string('license_purchase_cost')->nullable();
-            $table->string('license_purchase_date')->nullable();
-            $table->string('license_expiration_date')->nullable();
-            $table->string('license_termination_date')->nullable();
-            $table->string('license_purchase_order_number')->nullable();
-            $table->string('depreciation')->nullable();
-            $table->string('maintained')->nullable();
+            $table->date('license_purchase_date')->nullable();
+            $table->date('license_expiration_date')->nullable();
             $table->longText('license_notes')->nullable();
-
-
+            $table->longText('license_attachment')->nullable();
             $table->timestamps();
         });
     }

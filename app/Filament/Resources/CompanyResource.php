@@ -20,9 +20,9 @@ class CompanyResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office';
 
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationGroup = 'MIESCOR Management';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -33,23 +33,22 @@ class CompanyResource extends Resource
                         TextInput::make('company_name')
                             ->label('Company Name')
                             ->placeholder('Company Name')
-                            ->required(),
+                            ->required()
+                            ->columnStart(1),
                         FileUpload::make('company_image')
                             ->label('Company Image')
-
-                            // ->placeholder('Company Image')
                             ->required()
-                            // ->minFiles(1)
-                            // ->maxFiles(1)
+                            ->columnSpanFull()
+                            ->minFiles(1)
+                            ->maxFiles(1)
                             ->preserveFilenames()
-                            //->image()
                             ->previewable()
                             ->disk('public')
                             ->directory('company_images')
                             ->visibility('public')
                             ->deletable()
                             //->downloadable(),
-                    ]),
+                    ])->columns(2),
             ]);
     }
 

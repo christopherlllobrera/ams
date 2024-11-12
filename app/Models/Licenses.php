@@ -11,23 +11,28 @@ class Licenses extends Model
 
     protected $fillable = [
         'software_name',
-        'category_id', // foreign key
+        'categories_id', 
         'product_key',
         'seat',
-        'company_id',
-        'manufacturers_id', // foreign key
-        'license_to_name',
-        'license_to_email',
-        'reassignable',
+        'supplier_id',
+        'manufacturers_id',
+        'registered_name',
+        'registered_email',
         'license_order_number',
         'license_purchase_cost',
         'license_purchase_date',
         'license_expiration_date',
-        'license_termination_date',
-        'license_purchase_order_number',
-        'depreciation',
-        'maintained',
-        'license_notes'
+        'license_notes',
+        'license_attachment'
     ];
+
+    public function manufacturer()
+    {
+        return $this->belongsTo(Manufacturer::class);
+    }
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
 
 }

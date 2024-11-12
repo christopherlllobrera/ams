@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('purchase_cost')->nullable();
             $table->string('delivery_receipt')->nullable();
             $table->string('good_receipt')->nullable();
+            $table->longText('warranty_terms')->nullable();
 
             //specs
             $table->string('operating_system')->nullable();

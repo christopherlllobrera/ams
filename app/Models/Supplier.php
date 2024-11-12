@@ -18,7 +18,6 @@ class Supplier extends Model
         'supplier_zip',
         'supplier_contact_name',
         'supplier_contact_phone',
-        'supplier_fax',
         'supplier_email',
         'supplier_website',
         'supplier_notes',
@@ -27,7 +26,7 @@ class Supplier extends Model
 
     public function provinces()
     {
-        return $this->hasMany(Province::class);
+        return $this->belongsTo(Province::class);
     }
     public function municipality()//city
     {

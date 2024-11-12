@@ -21,14 +21,13 @@ class AssetModelResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
 
-    protected static ?string $navigationLabel = 'Asset Models';
+    protected static ?string $navigationLabel = 'Asset Model';
 
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationGroup = 'Module Management';
+
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $breadcrumb = 'Asset Models';
-    protected static ?string $slug = 'asset-models';
 
     public static function form(Form $form): Form
     {

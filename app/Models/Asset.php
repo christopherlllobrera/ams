@@ -35,6 +35,7 @@ class Asset extends Model
         'purchase_cost',
         'delivery_receipt',
         'good_receipt',
+        'warranty_terms',
 
         //specification
         'operating_system',
