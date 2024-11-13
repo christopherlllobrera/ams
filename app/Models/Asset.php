@@ -59,6 +59,10 @@ class Asset extends Model
 
     ];
 
+    protected $casts = [
+        'warranty_terms' => 'array',
+    ];
+
     public function company()
     {
         return $this->belongsTo(Company::class);

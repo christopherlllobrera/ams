@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\LicensesResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LicensesResource\RelationManagers;
+use Filament\Tables\Columns\TextColumn;
 
 class LicensesResource extends Resource
 {
@@ -51,7 +52,6 @@ class LicensesResource extends Resource
                         'xl' => 2,
                         '2xl' => 2,
                     ])
-
                     ->schema([
                         TextInput::make('software_name')
                             ->label('Software Name')
@@ -60,34 +60,39 @@ class LicensesResource extends Resource
                         TextInput::make('product_key')
                             ->label('Product Key')
                             ->placeholder('Product Key')
-                        // ->required()
-                        ,
-                        TextInput::make('categories_id')
+                            ->required(),
+                        Select::make('categories_id')
                             ->label('Category')
-                            ->placeholder('Category'),
+                            ->placeholder('Category')
+                            ->options([
+                                'Productivity Software' => 'Productivity Software',
+                                'Security Software' => 'Security Software',
+                                'Operating Software' => 'Operating Software',
+                                'Multimedia Software' => 'Multimedia Software',
+                                'Business Software' => 'Business Software',
+                                
+                            ]),
                         TextInput::make('seat')
                             ->label('Seat')
                             ->placeholder('Seat')
                             ->numeric()
-                        // ->required()
-                        ,
+                            ->required(),
                         Select::make('supplier_id')
-                            ->options(Supplier::all()->pluck('supplier_name', 'id')->toArray())
+                            ->options(Supplier::query()->pluck('supplier_name', 'id')->toArray())
                             ->label('Supplier Name')->placeholder('Company Name')
                             ->searchable()->preload(),
                         Select::make('manufacturer_id')
-                            ->options(Manufacturer::all()->pluck('manufacturer_name', 'id')->toArray())
+                            ->options(Manufacturer::query()->pluck('manufacturer_name', 'id')->toArray())
                             ->label('Manufacturer Name')->placeholder('Manufacturer Name')
                             ->searchable()->preload(),
                         TextInput::make('registered_name')
                             ->label('Registered Name')
                             ->placeholder('Registered Name')
-                        // ->required()
-                        ,
+                            ->required(),
                         TextInput::make('registered_email')
                             ->label('Registered Email')
                             ->placeholder('Registered Email')
-                            // ->required()
+                            ->required()
                             ->email(),
                         TextArea::make('license_notes')
                             ->label('License Notes')
@@ -106,12 +111,12 @@ class LicensesResource extends Resource
                                 return $leftCharacters . ' characters';
                             }),
                         FileUpload::make('license_attachment')->label('Attachment')
-                            ->multiple()->minFiles(0)->columnSpanFull()
+                            ->multiple()->columnSpanFull()
                             ->acceptedFileTypes(['image/*', 'application/vnd.ms-excel', 'application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
-                            ->uploadingMessage('Uploading warranty terms attachment...')
+                            ->uploadingMessage('Uploading License Attachment...')
                             //Storage Setting
-                            ->preserveFilenames()->previewable()->maxSize(50000) //50MB
-                            ->disk('public')->directory('Warranty Terms')
+                            ->preserveFilenames()->maxSize(50000) //50MB
+                            ->disk('public')->directory('License Attachment')
                             ->visibility('public')->deletable(false)
                             ->previewable()->downloadable()->openable()->reorderable(),
                     ])
@@ -135,22 +140,20 @@ class LicensesResource extends Resource
                         TextInput::make('license_order_number')
                             ->label('Purchase Order No')
                             ->placeholder('Purchase Order No')
-                        // ->required()
+                            ->required()
                         ,
                         TextInput::make('license_purchase_cost')
                             ->label('Purchase Cost')
                             ->placeholder('Purchase Cost')
-                            // ->required()
+                            ->required()
                             ->mask(RawJs::make('$money($input)'))
                             ->inputMode('decimal')->prefix('₱'),
                         DatePicker::make('license_purchase_date')
                             ->label('Purchase Date')
-                        // ->required()
-                        ,
+                            ->required(),
                         DatePicker::make('license_expiration_date')
                             ->label('Expiration Date')
-                        // ->required()
-                        ,
+                            ->required(),
                     ])
             ])->columns(3);
     }
@@ -159,7 +162,14 @@ class LicensesResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('software_name')->label('Software'),
+                TextColumn::make('categories_id')->label('Category'),
+                TextColumn::make('seat')->label('Seat'),
+                TextColumn::make('supplier_id')->label('Supplier'),
+                TextColumn::make('manufacturer_id')->label('Manufacturer'),
+                TextColumn::make('registered_name')->label('Registered Name'),
+                TextColumn::make('registered_email')->label('Registered Email'),
+                TextColumn::make('license_notes')->label('Notes')->wrap(2),
             ])
             ->filters([
                 //
