@@ -18,17 +18,19 @@ class AssetLifeCycleResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-archive-box';
 
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationGroup = 'Module Management';
 
     protected static ?int $navigationSort = 2;
 
-    protected static ?string $navigationLabel = 'Asset Life Cycle';
+    protected static ?string $navigationLabel = 'Asset Status';
+
+    protected static ?string $slug = 'asset-status';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Section::make('Asset Life Cycle Information')
+                Section::make('Asset Status')
                     ->schema([
                         TextInput::make('status')
                             ->label('Status')

@@ -9,6 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 class ListAssetModels extends ListRecords
 {
     protected static string $resource = AssetModelResource::class;
+    protected static ?string $title = 'Asset Model';
 
     protected function getHeaderActions(): array
     {

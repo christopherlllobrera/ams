@@ -24,24 +24,23 @@ class SupplierSeeder extends Seeder
             }
             fclose($file);
         })
-        //,supplier_notes,image,
+            //,supplier_notes,image,
             ->chunk(1000)
             ->each(function ($lines) {
                 DB::table('suppliers')->insert($lines->map(function ($line) {
                     return [
                         'id' => $line[0],
                         'supplier_name' => $line[1],
-                        'supplier_address' => $line[2],
-                        'municipality_id' => $line[3],
-                        'province_id' => $line[4],
-                        'country' => $line[5],
-                        'supplier_contact_name' => $line[6],
-                        'supplier_contact_phone' => $line[7],
-                        'supplier_fax' => $line[8],
-                        'supplier_email' => $line[9],
-                        'supplier_website' => $line[10],
-                        'supplier_notes' => $line[11],
-                        'supplier_attachment' => $line[12],
+                        'supplier_address' => null,
+                        'municipality_id' => null,
+                        'province_id' => null,
+                        'country' => null,
+                        'supplier_contact_name' => null,
+                        'supplier_contact_phone' => null,
+                        'supplier_email' => null,
+                        'supplier_website' => null,
+                        'supplier_notes' => null,
+                        'supplier_attachment' => null,
                         'created_at' => now(),
                         'updated_at' => now(),
                     ];

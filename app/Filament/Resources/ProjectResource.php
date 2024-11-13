@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ProjectResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ProjectResource\RelationManagers;
+use Filament\Tables\Columns\TextColumn;
 
 class ProjectResource extends Resource
 {
@@ -21,9 +22,9 @@ class ProjectResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-home-modern';
 
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationGroup = 'MIESCOR Management';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 3;
 
 
     public static function form(Form $form): Form
@@ -31,12 +32,16 @@ class ProjectResource extends Resource
         return $form
             ->schema([
                 Section::make()
-                ->schema([
-                    TextInput::make('project_name')
-                        ->label('Project Name')
-                        ->placeholder('Name')
-                        ->required(),
-                ])
+                    ->schema([
+                            TextInput::make('project_name')
+                            ->label('Project Name')
+                            ->placeholder('Name')
+                            ->required(),
+                            TextInput::make('cost_center')
+                                ->label('Cost Center')
+                                ->placeholder('Name')
+                                ->required(),
+                    ])->columns(2)
             ]);
     }
 
@@ -44,7 +49,8 @@ class ProjectResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('project_name'),
+                TextColumn::make('cost_center'),
             ])
             ->filters([
                 //

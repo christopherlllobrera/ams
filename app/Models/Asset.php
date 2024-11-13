@@ -35,6 +35,7 @@ class Asset extends Model
         'purchase_cost',
         'delivery_receipt',
         'good_receipt',
+        'warranty_terms',
 
         //specification
         'operating_system',
@@ -56,6 +57,10 @@ class Asset extends Model
         'deployment_date',
         'return_date'
 
+    ];
+
+    protected $casts = [
+        'warranty_terms' => 'array',
     ];
 
     public function company()

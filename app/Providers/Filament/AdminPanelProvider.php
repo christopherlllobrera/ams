@@ -27,7 +27,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('home')
             ->path('home')
-            ->login(Login::class)
+            ->login()
             ->brandName('Asset Management System')
             ->brandLogo(fn() => view('filament.app.logo'))
             ->brandLogoHeight('3rem')

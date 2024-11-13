@@ -43,6 +43,7 @@ class AssetResource extends Resource
         return $form
             ->schema([
                 Section::make('Asset Details')
+                ->icon('heroicon-o-computer-desktop')
                     ->schema([
                         Select::make('company_id')->label('Company')
                             ->options(Company::query()->pluck('company_name', 'id'))
@@ -58,12 +59,9 @@ class AssetResource extends Resource
                                     ->toArray()
                             )
                             ->live()
-                            // ->afterStateUpdated(fn (callable $set) => $set('asset_categories', null))
-                            ->afterStateUpdated(function (callable $get , callable $set) {
+                            ->afterStateUpdated(function (callable $get, callable $set) {
                                 $year = Carbon::now()->format('Y');
-                                // Define type codes mapping
                                 $typeCodeMap = [
-                                    'Others' => '00',
                                     'Computer' => '01',
                                     'Communication Equipment' => '02',
                                     'Networking Equipment' => '03',
@@ -75,10 +73,8 @@ class AssetResource extends Resource
                                     'Wiring' => '09',
                                     'Other' => '10'
                                 ];
-                                // Get the selected asset type
                                 $selectedType = $get('asset_type');
                                 $typeCode = $typeCodeMap[$selectedType] ?? '00';
-                                // Get the last asset with the same type code
                                 $lastAsset = Asset::where('company_number', 'LIKE', "OE-{$typeCode}-{$year}-%")
                                     ->orderBy('company_number', 'desc')
                                     ->first();
@@ -89,8 +85,8 @@ class AssetResource extends Resource
                                 } else {
                                     $newNumber = '0001';
                                 }
-                                return $set('company_number', "OE-{$typeCode}-{$year}-{$newNumber}");
-
+                                $companyNumber = "OE-{$typeCode}-{$year}-{$newNumber}";
+                                $set('company_number', $companyNumber);
                             })
                             ->searchable()->preload(),
                         Select::make('asset_categories')
@@ -109,7 +105,8 @@ class AssetResource extends Resource
                             ->disabled(fn (callable $get) => !$get('asset_type')),
                         TextInput::make('company_number')->label('Company Number')
                             ->dehydrated()
-                            ->disabled(),
+                            ->readOnly()
+                            ,
                         Select::make('asset_model_id')->label('Asset Model')
                             ->options(AssetModel::query()->pluck('asset_model_name', 'id'))
                             ->searchable()->preload()
@@ -125,7 +122,7 @@ class AssetResource extends Resource
                         Select::make('department_id')->label('Department')
                             ->options(Department::all()->pluck('department_name', 'id'))
                             ->searchable()->preload(),
-                        Select::make('project_id')->label('Cost Center/WBS')
+                        Select::make('project_id')->label('Cost Center')->hint('WBS')
                             ->options(Project::query()->pluck('project_name', 'id'))
                             ->searchable()->preload(),
                         TextArea::make('asset_note')->label('Asset Note')
@@ -147,25 +144,34 @@ class AssetResource extends Resource
                         '2xl' => 3,
                     ]),
                 Section::make('Purchase Details')
+                    ->icon('heroicon-o-tag')
                     ->schema([
                         Select::make('supplier_name')->label('Supplier Name')
                             ->options(Supplier::query()->pluck('supplier_name', 'id')),
                         TextInput::make('depreciation_cost')->label('Depreciation Cost')
                             ->mask(RawJs::make('$money($input)'))
-                            ->inputMode('decimal'),
+                            ->inputMode('decimal')->prefix('₱'),
                         Select::make('depreciation_year')->label('Depreciation Year')
                             ->options(collect(range(2020, 2035))->reverse()->mapWithKeys(fn ($year) => [$year => $year])),
-                        DatePicker::make('EOL_date')->label('End Of Life'),
-
+                        DatePicker::make('EOL_date')->label('EOL')->hint('End of Life'),
                         TextInput::make('purchase_receipt')->label('Purchase Receipt'),
                         DatePicker::make('purchase_date')->label('Purchase Date'),
                         TextInput::make('purchase_order')->label('Purchase Order'),
                         TextInput::make('purchase_cost')->label('Purchase Cost')
                             ->mask(RawJs::make('$money($input)'))
-                            ->inputMode('decimal'),
+                            ->inputMode('decimal')->prefix('₱'),
                         TextInput::make('delivery_receipt')->label('Delivery Receipt')
                             ->columnStart(3),
-                        TextInput::make('good_receipt')->label('Good Receipt'),
+                        TextInput::make('good_receipt')->label('GR')->hint('Good Receipt'),
+                        FileUpload::make('warranty_terms')->label('Warranty Terms')
+                            ->multiple()->columnSpanFull()
+                            ->acceptedFileTypes(['image/*', 'application/vnd.ms-excel', 'application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
+                            ->uploadingMessage('Uploading Warranty Terms ...')
+                            //Storage Setting
+                            ->preserveFilenames()->maxSize(50000) //50MB
+                            ->disk('public')->directory('Warranty Terms')
+                            ->visibility('public')->deletable(false)
+                            ->previewable()->downloadable()->openable()->reorderable(),
                     ])
                     ->columns([
                         'sm' => 1,
@@ -181,9 +187,18 @@ class AssetResource extends Resource
                         'xl' => 3,
                         '2xl' => 3,
                     ]),
-                    Section::make('Specification')
+                Section::make('Specification')
+                    ->icon('heroicon-o-wrench-screwdriver')
                     ->schema([
-                        TextInput::make('operating_system')->label('Operating System'),
+                        Select::make('operating_system')->label('Operating System')
+                            ->options([
+                                'Windows 7' => 'Windows 7',
+                                'Windows 10 Pro' => 'Windows 10 Pro',
+                                'Windows 11 Pro' => 'Windows 11 Pro',
+                                'Windows Server 2012' => 'Windows Server 2012',
+                                'Windows Server 2019' => 'Windows Server 2019',
+                                'Windows Server 2022' => 'Windows Server 2022',
+                            ]),
                         TextInput::make('processor')->label('Processor'),
                         TextInput::make('RAM')->label('RAM'),
                         TextInput::make('storage')->label('Storage'),
@@ -193,10 +208,10 @@ class AssetResource extends Resource
                     ])
                     ->columns([
                         'sm' => 1,
-                        'md' => 1,
-                        'lg' => 2,
-                        'xl' => 3,
-                        '2xl' => 3,
+                        'md' => 2,
+                        'lg' => 4,
+                        'xl' => 4,
+                        '2xl' => 4,
                     ])
                     ->columnSpan([
                         'sm' => 1,
@@ -213,7 +228,18 @@ class AssetResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('company_id'),
+                TextColumn::make('company_number'),
+                TextColumn::make('asset_model_id'),
+                TextColumn::make('asset_code'),
+                TextColumn::make('asset_type'),
+                TextColumn::make('asset_categories'),
+                TextColumn::make('asset_status'),
 
+                TextColumn::make('location_id'),
+                TextColumn::make('department_id'),
+                TextColumn::make('project_id'),
+                TextColumn::make('asset_status'),
 
             ])
             ->filters([

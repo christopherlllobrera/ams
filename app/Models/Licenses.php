@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class Licenses extends Model
 {
@@ -11,23 +12,38 @@ class Licenses extends Model
 
     protected $fillable = [
         'software_name',
-        'category_id', // foreign key
+        'categories_id',
         'product_key',
         'seat',
-        'company_id',
-        'manufacturers_id', // foreign key
-        'license_to_name',
-        'license_to_email',
-        'reassignable',
+        'supplier_id',
+        'manufacturer_id',
+        'registered_name',
+        'registered_email',
         'license_order_number',
         'license_purchase_cost',
         'license_purchase_date',
         'license_expiration_date',
-        'license_termination_date',
-        'license_purchase_order_number',
-        'depreciation',
-        'maintained',
-        'license_notes'
+        'license_notes',
+        'license_attachment'
     ];
+
+    protected $casts = [
+        'license_attachment' => 'array',
+        'license_expiration_date' => 'datetime',
+    ];
+
+    public function manufacturer()
+    {
+        return $this->belongsTo(Manufacturer::class);
+    }
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
+    public function routeNotificationForMail()
+    {
+        return $this->registered_email;
+    }
 
 }
