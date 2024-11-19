@@ -15,7 +15,7 @@ class ListAssets extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-            ->label('Create New'),
+                ->label('Create New'),
         ];
     }
 
@@ -23,19 +23,36 @@ class ListAssets extends ListRecords
     {
         return [
             null => Tab::make('All'),
-            // 'Available' => Tab::make()->query(fn ($query) => $query->where('status', 'Available')),
-            // 'Pending' => Tab::make()->query(fn ($query) => $query->where('status', 'Pending')),
-            // 'Deployed' => Tab::make()->query(fn ($query) => $query->where('status', 'Deployed')),
-            // 'Under Repair' => Tab::make()->query(fn ($query) => $query->where('status', 'Under Repair')),
-            // 'In Storage' => Tab::make()->query(fn ($query) => $query->where('status', 'In Storage')),
-            // 'Missing' => Tab::make()->query(fn ($query) => $query->where('status', 'Missing')),
-            // 'Stolen' => Tab::make()->query(fn ($query) => $query->where('status', 'Stolen')),
-            // 'Rental' => Tab::make()->query(fn ($query) => $query->where('status', 'Rental')),
-            // 'Donated' => Tab::make()->query(fn ($query) => $query->where('status', 'Donated')),
-            // 'Disposed' => Tab::make()->query(fn ($query) => $query->where('status', 'Disposed')),
-            // 'Out of Service' => Tab::make()->query(fn ($query) => $query->where('status', 'Out of Service')),
-            // 'Sold' => Tab::make()->query(fn ($query) => $query->where('status', 'Sold')),
-
+            'Available' => Tab::make()->query(function ($query) {
+                return $query->whereHas('assetlifecycle', function ($query) {
+                    $query->where('status', 'Available');
+                });
+            }),
+            'Deployed' => Tab::make()->query(function ($query) {
+                return $query->whereHas('assetlifecycle', function ($query) {
+                    $query->where('status', 'Deployed');
+                });
+            }),
+            'For Repair' => Tab::make()->query(function ($query) {
+                return $query->whereHas('assetlifecycle', function ($query) {
+                    $query->where('status', 'For Repair');
+                });
+            }),
+            'Missing' => Tab::make()->query(function ($query) {
+                return $query->whereHas('assetlifecycle', function ($query) {
+                    $query->where('status', 'Missing');
+                });
+            }),
+            'For Disposal' => Tab::make()->query(function ($query) {
+                return $query->whereHas('assetlifecycle', function ($query) {
+                    $query->where('status', 'For Disposal');
+                });
+            }),
+            'Disposed' => Tab::make()->query(function ($query) {
+                return $query->whereHas('assetlifecycle', function ($query) {
+                    $query->where('status', 'Disposed');
+                });
+            }),
         ];
     }
 }
