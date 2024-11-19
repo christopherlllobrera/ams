@@ -9,6 +9,7 @@ use App\Models\Asset;
 use App\Models\Company;
 use App\Models\Project;
 use App\Models\Location;
+use App\Models\Supplier;
 use Filament\Forms\Form;
 use App\Models\AssetModel;
 use App\Models\Department;
@@ -18,6 +19,7 @@ use Illuminate\Support\Str;
 use App\Models\AssetLifeCycle;
 use App\Models\AssetCategories;
 use Filament\Resources\Resource;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextArea;
@@ -25,8 +27,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\AssetResource\Pages;
-use App\Models\Supplier;
 
 class AssetResource extends Resource
 {
@@ -114,7 +117,7 @@ class AssetResource extends Resource
                                 'xl' => 2,
                                 'md' => 1
                             ]),
-                        Select::make('asset_status')->label('Status')
+                        Select::make('assetlifecycle_id')->label('Status')
                             ->options(AssetLifeCycle::query()->pluck('status', 'id')),
                         Select::make('location_id')->label('Location')
                             ->options(Location::all()->pluck('location_name', 'id'))
@@ -160,13 +163,16 @@ class AssetResource extends Resource
                         TextInput::make('purchase_cost')->label('Purchase Cost')
                             ->mask(RawJs::make('$money($input)'))
                             ->inputMode('decimal')->prefix('₱'),
-                        TextInput::make('delivery_receipt')->label('Delivery Receipt')
-                            ->columnStart(3),
-                        TextInput::make('good_receipt')->label('GR')->hint('Good Receipt'),
-                        FileUpload::make('warranty_terms')->label('Warranty Terms')
+                        DatePicker::make('start_of_warranty')->label('Warranty Start')
+                            ->helperText('Warranty Terms'),
+                        DatePicker::make('end_of_warranty')->label('Warranty End')
+                            ->helperText('Warranty Terms'),
+                        TextInput::make('good_receipt')->label('GR')->hint('Good Receipt')
+                            ,
+                        FileUpload::make('asset_attachment')->label('Attachment')
                             ->multiple()->columnSpanFull()
                             ->acceptedFileTypes(['image/*', 'application/vnd.ms-excel', 'application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
-                            ->uploadingMessage('Uploading Warranty Terms ...')
+                            ->uploadingMessage('File uploading ...')
                             //Storage Setting
                             ->preserveFilenames()->maxSize(50000) //50MB
                             ->disk('public')->directory('Warranty Terms')
@@ -175,14 +181,14 @@ class AssetResource extends Resource
                     ])
                     ->columns([
                         'sm' => 1,
-                        'md' => 1,
+                        'md' => 2,
                         'lg' => 3,
                         'xl' => 4,
                         '2xl' => 4,
                     ])
                     ->columnSpan([
                         'sm' => 1,
-                        'md' => 1,
+                        'md' => 2,
                         'lg' => 2,
                         'xl' => 3,
                         '2xl' => 3,
@@ -200,8 +206,8 @@ class AssetResource extends Resource
                                 'Windows Server 2022' => 'Windows Server 2022',
                             ]),
                         TextInput::make('processor')->label('Processor'),
-                        TextInput::make('RAM')->label('RAM'),
-                        TextInput::make('storage')->label('Storage'),
+                        TextInput::make('RAM')->label('RAM')->suffix('GB')->numeric(),
+                        TextInput::make('storage')->label('Storage')->suffix('GB')->numeric(),
                         TextInput::make('GPU')->label('GPU'),
                         TextInput::make('color')->label('Color'),
                         TextInput::make('MAC_address')->label('MAC Address'),
@@ -228,22 +234,72 @@ class AssetResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('company_id'),
-                TextColumn::make('company_number'),
-                TextColumn::make('asset_model_id'),
-                TextColumn::make('asset_code'),
-                TextColumn::make('asset_type'),
-                TextColumn::make('asset_categories'),
-                TextColumn::make('asset_status'),
-
-                TextColumn::make('location_id'),
-                TextColumn::make('department_id'),
-                TextColumn::make('project_id'),
-                TextColumn::make('asset_status'),
+                TextColumn::make('company.company_name')->label('Company')->searchable()->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('company_number')->label('Company No.')->searchable()->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('AssetModel.asset_model_name')->label('Model')->searchable()->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('asset_code')->label('Asset Code')->searchable()->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('asset_type')->label('Type')->searchable()->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('asset_categories')->label('Categories')->searchable()->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('location.location_name')->label('Location')->searchable()->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('department.department_abbreviation')->label('Department')->searchable()->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('project.project_name')->label('Project')->searchable()->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('assetlifecycle.status')->label('Status')->searchable()->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
 
             ])
             ->filters([
-                //
+                SelectFilter::make('asset_type')
+                    ->label('Type')
+                    ->options(AssetCategories::query()->distinct()->pluck('asset_type', 'asset_type')->toArray()),
+                SelectFilter::make('assetlifecycle_id')
+                    ->label('Status')
+                    ->options(AssetLifeCycle::query()->pluck('status', 'id')),
+                SelectFilter::make('assetlifecycle_id')
+                    ->label('Location')
+                    ->options(Location::all()->pluck('location_name', 'id')),
+                SelectFilter::make('department_id')->label('Department')
+                    ->options(Department::all()->pluck('department_name', 'id')),
+                SelectFilter::make('project_id')->label('Cost Center')
+                    ->options(Project::query()->pluck('project_name', 'id')),
+                Filter::make('created_at')
+                    ->form([
+                        DatePicker::make('created_from')
+                            ->placeholder(fn ($state): string => 'Jan 01, '.now()->subYear()->format('Y')),
+                        DatePicker::make('created_until')
+                            ->placeholder(fn ($state): string => now()->format('M d, Y')),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'] ?? null,
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['created_until'] ?? null,
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    })
+                    ->indicateUsing(function (array $data): array {
+                        $indicators = [];
+                        if ($data['created_from'] ?? null) {
+                            $indicators['created_from'] = 'COE from '.Carbon::parse($data['created_from'])->toFormattedDateString();
+                        }
+                        if ($data['created_until'] ?? null) {
+                            $indicators['created_until'] = 'COE until '.Carbon::parse($data['created_until'])->toFormattedDateString();
+                        }
+
+                        return $indicators;
+                    }),
+
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

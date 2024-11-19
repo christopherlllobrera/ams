@@ -19,7 +19,7 @@ class Asset extends Model
         'asset_categories',
         'asset_model_id',
         'serial_number',
-        'asset_status',
+        'assetlifecycle_id',
         'location_id',
         'department_id',
         'project_id',
@@ -33,9 +33,13 @@ class Asset extends Model
         'purchase_date',
         'purchase_order',
         'purchase_cost',
-        'delivery_receipt',
         'good_receipt',
-        'warranty_terms',
+        'delivery_date',
+        'delivery_receipt',
+        'end_of_warranty',
+        'start_of_warranty',
+        'aging',
+        'purchase_attachment',
 
         //specification
         'operating_system',
@@ -60,7 +64,7 @@ class Asset extends Model
     ];
 
     protected $casts = [
-        'warranty_terms' => 'array',
+        'asset_attachment' => 'array',
     ];
 
     public function company()
@@ -70,7 +74,7 @@ class Asset extends Model
     public function AssetModel(){
         return $this->belongsTo(AssetModel::class);
     }
-    public function AssetLifeCycle()
+    public function assetlifecycle()
     {
         return $this->belongsTo(AssetLifeCycle::class);
     }
@@ -85,5 +89,9 @@ class Asset extends Model
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 }

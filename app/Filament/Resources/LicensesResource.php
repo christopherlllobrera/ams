@@ -70,7 +70,7 @@ class LicensesResource extends Resource
                                 'Operating Software' => 'Operating Software',
                                 'Multimedia Software' => 'Multimedia Software',
                                 'Business Software' => 'Business Software',
-                                
+
                             ]),
                         TextInput::make('seat')
                             ->label('Seat')
@@ -165,8 +165,8 @@ class LicensesResource extends Resource
                 TextColumn::make('software_name')->label('Software'),
                 TextColumn::make('categories_id')->label('Category'),
                 TextColumn::make('seat')->label('Seat'),
-                TextColumn::make('supplier_id')->label('Supplier'),
-                TextColumn::make('manufacturer_id')->label('Manufacturer'),
+                TextColumn::make('supplier.supplier_name')->label('Supplier')->wrap(2),
+                TextColumn::make('manufacturer.manufacturer_name')->label('Manufacturer'),
                 TextColumn::make('registered_name')->label('Registered Name'),
                 TextColumn::make('registered_email')->label('Registered Email'),
                 TextColumn::make('license_notes')->label('Notes')->wrap(2),

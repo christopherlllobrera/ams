@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('asset_categories')->nullable();
             $table->string('asset_model_id')->nullable();
             $table->string('serial_number')->nullable();
-            $table->string('asset_status')->nullable();
+            $table->string('assetlifecycle_id')->nullable();
             $table->string('location_id')->nullable();
             $table->string('department_id')->nullable();
             $table->string('project_id')->nullable();
@@ -35,9 +35,13 @@ return new class extends Migration
             $table->date('purchase_date')->nullable();
             $table->string('purchase_order')->nullable();
             $table->string('purchase_cost')->nullable();
-            $table->string('delivery_receipt')->nullable();
             $table->string('good_receipt')->nullable();
-            $table->longText('warranty_terms')->nullable();
+            $table->string('delivery_receipt')->nullable();
+            $table->string('delivery_date')->nullable();
+            $table->date('start_of_warranty')->nullable();
+            $table->date('end_of_warranty')->nullable();
+            $table->longText('asset_attachment')->nullable();
+            $table->string('aging')->nullable();
 
             //specs
             $table->string('operating_system')->nullable();

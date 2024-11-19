@@ -47,12 +47,9 @@ class AssetLifeCycleResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('status')
-
-                    ->searchable()
-                    ->sortable(),
+                    ->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('definition')
-                    ->searchable()
-                    ->sortable(),
+                    ->searchable()->sortable(),
             ])
             ->filters([
                 //
