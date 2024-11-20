@@ -23,6 +23,17 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'personnel_no',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'sub_area',
+        'organizational_unit',
+        'employee_group',
+        'position_name',
+        'cost_center',
+        'cost_center_name',
+        'start_of_tenure',
     ];
 
     /**

@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             ProvinceSeeder::class,
             MunicipalitySeeder::class,
             BarangaySeeder::class,
-            // UserSeeder::class,
+            UserSeeder::class,
             PermissionSeeder::class,
             AssetCategoriesSeeder::class,
             ProjectSeeder::class,
