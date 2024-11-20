@@ -33,10 +33,14 @@ class PermissionSeeder extends Seeder
             'view-logs',]);
 
         Role::create(['name' => 'user'])
-            ->givePermissionTo([]);
+            ->givePermissionTo([
+                'create-user','update-user','view-user','delete-user'
+            ]);
 
         Role::create(['name' => 'AMS-admin'])
-            ->givePermissionTo([]);
+            ->givePermissionTo([
+                'create-user','update-user','view-user','delete-user'
+            ]);
 
         $this->command->info('Roles created successfully!');
 

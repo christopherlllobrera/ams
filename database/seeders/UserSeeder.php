@@ -6,12 +6,12 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\LazyCollection;
+use Carbon\Carbon;
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
-
         DB::disableQueryLog();
         // Initialize counters
         $totalLines = 0;
@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         $startTime = microtime(true);
 
         // First count total lines in CSV
-        $file = fopen(public_path('table_user_clean_data.csv'), 'r');
+        $file = fopen(public_path('Employee_with_emails.csv'), 'r');
         while (fgetcsv($file, 4096) !== false) {
             $totalLines++;
         }
@@ -27,9 +27,8 @@ class UserSeeder extends Seeder
 
         $this->command->info("Found {$totalLines} users to process");
 
-        // Process the data
         LazyCollection::make(function () {
-            $file = fopen(public_path('table_user_clean_data.csv'), 'r');
+            $file = fopen(public_path('Employee_with_emails.csv'), 'r');
             while (($line = fgetcsv($file, 4096)) !== false) {
                 $dataString = implode(',', $line);
                 $row = explode(',', $dataString);
@@ -42,11 +41,22 @@ class UserSeeder extends Seeder
                 DB::table('users')->insert($lines->map(function ($line) {
                     return [
                         'id' => $line[0],
-                        'name' => $line[1],
-                        'email' => $line[2],
-                        'email_verified_at' => now(),
-                        'password' => Hash::make($line[4]),
-                        'remember_token' => $line[5],
+                        'personnel_no' => $line[1] ?? null,
+                        'name' => $line[2],
+                        'first_name' => $line[3] ?? null,
+                        'middle_name' => $line[4] ?? null,
+                        'last_name' => $line[5] ?? null,
+                        'email' => $line[6] ?? null,
+                        'sub_area' => $line[7],
+                        'organizational_unit' => $line[8],
+                        'employee_group' => $line[9],
+                        'position_name' => $line[10],
+                        'cost_center' => $line[11],
+                        'cost_center_name' => $line[12],
+                        'start_of_tenure' => $line[13],
+                        'email_verified_at' => $line[6] ? now() : null,
+                        'password' => Hash::make($line[14] ?? 'password'),
+                        'remember_token' => $line[15] ?? null,
                         'created_at' => now(),
                         'updated_at' => now(),
                     ];
