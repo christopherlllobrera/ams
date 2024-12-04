@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use DateTime;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Licenses;
@@ -12,19 +13,23 @@ use Filament\Tables\Table;
 use Filament\Support\RawJs;
 use App\Models\Manufacturer;
 use Filament\Resources\Resource;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
+use Filament\Support\Enums\FontFamily;
+use Filament\Support\Enums\FontWeight;
 use Filament\Forms\Components\TextArea;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\LicensesResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LicensesResource\RelationManagers;
-use Filament\Tables\Columns\TextColumn;
 
 class LicensesResource extends Resource
 {
@@ -67,10 +72,10 @@ class LicensesResource extends Resource
                             ->options([
                                 'Productivity Software' => 'Productivity Software',
                                 'Security Software' => 'Security Software',
+                                'Engineering Software' => 'Engineering Software',
                                 'Operating Software' => 'Operating Software',
                                 'Multimedia Software' => 'Multimedia Software',
                                 'Business Software' => 'Business Software',
-
                             ]),
                         TextInput::make('seat')
                             ->label('Seat')
@@ -140,20 +145,22 @@ class LicensesResource extends Resource
                         TextInput::make('license_order_number')
                             ->label('Purchase Order No')
                             ->placeholder('Purchase Order No')
-                            ->required()
+                            // ->required()
                         ,
                         TextInput::make('license_purchase_cost')
                             ->label('Purchase Cost')
                             ->placeholder('Purchase Cost')
-                            ->required()
+                            // ->required()
                             ->mask(RawJs::make('$money($input)'))
                             ->inputMode('decimal')->prefix('₱'),
                         DatePicker::make('license_purchase_date')
                             ->label('Purchase Date')
-                            ->required(),
+                            // ->required()
+                            ,
                         DatePicker::make('license_expiration_date')
                             ->label('Expiration Date')
-                            ->required(),
+                            //->required()
+                            ,
                     ])
             ])->columns(3);
     }
@@ -162,17 +169,82 @@ class LicensesResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('software_name')->label('Software'),
-                TextColumn::make('categories_id')->label('Category'),
-                TextColumn::make('seat')->label('Seat'),
-                TextColumn::make('supplier.supplier_name')->label('Supplier')->wrap(2),
+
+                TextColumn::make('software_name')->label('Software')
+                    ->weight(FontWeight::Bold)
+                    ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('categories_id')->label('Category')
+                    ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('seat')->label('Seat') ->badge()->color('success')
+                    ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('supplier.supplier_name')->label('Supplier')
+                    ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('manufacturer.manufacturer_name')->label('Manufacturer'),
-                TextColumn::make('registered_name')->label('Registered Name'),
-                TextColumn::make('registered_email')->label('Registered Email'),
-                TextColumn::make('license_notes')->label('Notes')->wrap(2),
+                TextColumn::make('registered_name')->label('Registered Name')
+                    ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('registered_email')->label('Registered Email')
+                    ->icon('heroicon-m-envelope')->copyable()->iconColor('primary')
+                    ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('license_order_number')->label(' License Order No.')
+                    ->fontFamily(FontFamily::Mono)
+                    ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('license_purchase_cost')->label('Purchase Cost')
+                    ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('license_purchase_date')->label('Purchase Date')->date()
+                    ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('license_expiration_date')->label('Expiration Date')->date()
+                    ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('license_notes')->label('Notes')
+                    ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: true),
+
             ])
             ->filters([
-                //
+                SelectFilter::make('categories_id')
+                    ->label('Category')
+                    ->placeholder('Category')
+                    ->options([
+                        'Productivity Software' => 'Productivity Software',
+                        'Security Software' => 'Security Software',
+                        'Engineering Software' => 'Engineering Software',
+                        'Operating Software' => 'Operating Software',
+                        'Multimedia Software' => 'Multimedia Software',
+                        'Business Software' => 'Business Software',
+                    ]),
+                SelectFilter::make('supplier_id')
+                    ->options(Supplier::query()->pluck('supplier_name', 'id')->toArray())
+                    ->label('Supplier Name'),
+                SelectFilter::make('manufacturer_id')
+                    ->options(Manufacturer::query()->pluck('manufacturer_name', 'id')->toArray())
+                    ->label('Manufacturer Name'),
+                Filter::make('created_at')
+                    ->form([
+                        DatePicker::make('created_from')
+                            ->placeholder(fn ($state): string => 'Jan 01, '.now()->subYear()->format('Y')),
+                        DatePicker::make('created_until')
+                            ->placeholder(fn ($state): string => now()->format('M d, Y')),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'] ?? null,
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['created_until'] ?? null,
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    })
+                    ->indicateUsing(function (array $data): array {
+                        $indicators = [];
+                        if ($data['created_from'] ?? null) {
+                            $indicators['created_from'] = 'License from '.Carbon::parse($data['created_from'])->toFormattedDateString();
+                        }
+                        if ($data['created_until'] ?? null) {
+                            $indicators['created_until'] = 'License until '.Carbon::parse($data['created_until'])->toFormattedDateString();
+                        }
+
+                        return $indicators;
+                    }),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

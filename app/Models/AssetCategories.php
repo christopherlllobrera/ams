@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class AssetCategories extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'asset_type',
+        'categories',
+    ];
 }

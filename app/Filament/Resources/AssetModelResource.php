@@ -19,7 +19,7 @@ class AssetModelResource extends Resource
 {
     protected static ?string $model = AssetModel::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
+    // protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
 
     protected static ?string $navigationLabel = 'Asset Model';
 

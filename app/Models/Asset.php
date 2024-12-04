@@ -38,7 +38,7 @@ class Asset extends Model
         'delivery_receipt',
         'end_of_warranty',
         'start_of_warranty',
-        'aging',
+        // 'aging',
         'purchase_attachment',
 
         //specification
@@ -49,22 +49,13 @@ class Asset extends Model
         'GPU',
         'color',
         'MAC_address',
-
-        //user
-        'full_name',
-        'personnel number',
-        'job_title',
-        'location',
-        'department',
-        'project_name',
-        'cost_center',
-        'deployment_date',
-        'return_date'
+        'image',
 
     ];
 
     protected $casts = [
         'asset_attachment' => 'array',
+        'image' => 'array',
     ];
 
     public function company()
@@ -78,10 +69,6 @@ class Asset extends Model
     {
         return $this->belongsTo(AssetLifeCycle::class);
     }
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
     public function department()
     {
         return $this->belongsTo(Department::class);
@@ -93,5 +80,16 @@ class Asset extends Model
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    //relationsip
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'personnel_no');
+    }
+
+    public function assetuser()
+    {
+        return $this->hasMany(AssetUser::class , 'asset_id');
     }
 }

@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
                         'cost_center' => $line[11],
                         'cost_center_name' => $line[12],
                         'start_of_tenure' => $line[13],
-                        'email_verified_at' => $line[6] ? now() : null,
+                        'email_verified_at' => $line[6] ? now() : nul00l,
                         'password' => Hash::make($line[14] ?? 'password'),
                         'remember_token' => $line[15] ?? null,
                         'created_at' => now(),

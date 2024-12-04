@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\AssetModelResource\Pages;
 
-use App\Filament\Resources\AssetModelResource;
 use Filament\Actions;
+use Filament\Pages\Page;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\AssetModelResource;
 
 class ListAssetModels extends ListRecords
 {
@@ -17,4 +18,5 @@ class ListAssetModels extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
 }

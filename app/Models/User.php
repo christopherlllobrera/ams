@@ -55,4 +55,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function asset()
+    {
+        return $this->hasMany(Asset::class,'personnel_no');
+    }
 }

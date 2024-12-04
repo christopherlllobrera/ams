@@ -30,7 +30,7 @@ class ProjectSeeder extends Seeder
                     return [
                         'id' => $line[0],
                         'cost_center' => $line[1],
-                        'project_name' => $line[2],
+                        'cost_center_name' => $line[2],
                         'created_at' => now(),
                         'updated_at' => now(),
                     ];
