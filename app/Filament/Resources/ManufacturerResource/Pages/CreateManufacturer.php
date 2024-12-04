@@ -17,4 +17,8 @@ class CreateManufacturer extends CreateRecord
             $this->getCancelFormAction(),
         ];
     }
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

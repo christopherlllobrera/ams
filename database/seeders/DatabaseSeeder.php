@@ -45,6 +45,7 @@ class DatabaseSeeder extends Seeder
             AssetCategoriesSeeder::class,
             ProjectSeeder::class,
             ModelSeeder::class,
+            AssetSeeder::class,
         ]);
     }
 }

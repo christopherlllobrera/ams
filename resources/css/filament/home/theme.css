@@ -1,0 +1,16 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+.fi-sidebar-item-active > a {
+    @apply bg-orange-600;
+
+    & > svg, span {
+        @apply text-white;
+    }
+
+    &:hover {
+        @apply bg-orange-500;
+    }
+}
+    

@@ -16,7 +16,7 @@ class AssetLifeCycleResource extends Resource
 {
     protected static ?string $model = AssetLifeCycle::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
+    // protected static ?string $navigationIcon = 'heroicon-o-archive-box';
 
     protected static ?string $navigationGroup = 'Module Management';
 

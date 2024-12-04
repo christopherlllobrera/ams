@@ -20,7 +20,7 @@ class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-home-modern';
+    // protected static ?string $navigationIcon = 'heroicon-o-home-modern';
 
     protected static ?string $navigationGroup = 'MIESCOR Management';
 
@@ -33,7 +33,7 @@ class ProjectResource extends Resource
             ->schema([
                 Section::make()
                     ->schema([
-                            TextInput::make('project_name')
+                            TextInput::make('cost_center_name')
                             ->label('Project Name')
                             ->placeholder('Name')
                             ->required(),
@@ -49,7 +49,7 @@ class ProjectResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('project_name'),
+                TextColumn::make('cost_center_name'),
                 TextColumn::make('cost_center'),
             ])
             ->filters([

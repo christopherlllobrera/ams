@@ -21,4 +21,9 @@ class CreateAsset extends CreateRecord
                     ->label('Cancel'),
         ];
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

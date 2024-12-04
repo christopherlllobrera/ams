@@ -13,8 +13,21 @@ class EditAsset extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            // Actions\ViewAction::make(),
+            // Actions\DeleteAction::make(),
+            $this->getSaveFormAction(),
+            $this->getCancelFormAction(),
+        ];
+    }
+    // public function hasCombinedRelationManagerTabsWithContent(): bool
+    // {
+    //     return true;
+    // }
+    protected function getFormActions(): array
+    {
+        return [
+            $this->getSaveFormAction()->hidden(),
+            $this->getCancelFormAction()->hidden(),
         ];
     }
 }

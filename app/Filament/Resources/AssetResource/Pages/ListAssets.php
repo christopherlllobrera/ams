@@ -2,21 +2,36 @@
 
 namespace App\Filament\Resources\AssetResource\Pages;
 
-use App\Filament\Resources\AssetResource;
 use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Blade;
 use Filament\Resources\Components\Tab;
+use App\Filament\Resources\AssetResource;
+use Filament\Resources\Pages\ListRecords;
+use Filament\Support\Facades\FilamentView;
+use Filament\Tables\View\TablesRenderHook;
 
 class ListAssets extends ListRecords
 {
     protected static string $resource = AssetResource::class;
 
-    protected function getHeaderActions(): array
+    // protected function getHeaderActions(): array
+    // {
+    //     return [
+    //         Actions\CreateAction::make()
+    //             ->label('Create New'),
+    //     ];
+    // }
+    public function mount(): void
     {
-        return [
-            Actions\CreateAction::make()
-                ->label('Create New'),
-        ];
+        FilamentView::registerRenderHook(
+            TablesRenderHook::TOOLBAR_START,
+            function () {
+                return Blade::render('<x-filament::button tag="a" href="{{ $link }}">Create Asset</x-filament::button>', [
+                    'link' => self::$resource::getUrl('create')
+                ]);
+            }
+        );
+        parent::mount();
     }
 
     public function getTabs(): array

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('cost_center')->nullable()->constrained()->cascadeOnDelete();
-            $table->string('project_name')->nullable();
+            $table->string('cost_center_name')->nullable();
             $table->timestamps();
         });
     }

@@ -53,6 +53,7 @@ class PermissionSeeder extends Seeder
                 'name' => 'admin',
                 'email' => 'iamboss@miescor.ph',
                 'password' => Hash::make('4Dmi@50.MIESCoR'),
+                'personnel_no' => 10000000,
                 'email_verified_at' => now(),
             ]);
             $admin->assignRole('superadmin');

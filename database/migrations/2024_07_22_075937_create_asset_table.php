@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('assets', function (Blueprint $table) {
@@ -24,8 +22,7 @@ return new class extends Migration
             $table->string('location_id')->nullable();
             $table->string('department_id')->nullable();
             $table->string('project_id')->nullable();
-            $table->string('asset_note')->nullable();
-
+            $table->longText('asset_note')->nullable();
             //purchase details
             $table->string('depreciation_cost')->nullable();
             $table->string('depreciation_year')->nullable();
@@ -41,7 +38,6 @@ return new class extends Migration
             $table->date('start_of_warranty')->nullable();
             $table->date('end_of_warranty')->nullable();
             $table->longText('asset_attachment')->nullable();
-            $table->string('aging')->nullable();
 
             //specs
             $table->string('operating_system')->nullable();
@@ -51,7 +47,7 @@ return new class extends Migration
             $table->string('GPU')->nullable();
             $table->string('color')->nullable();
             $table->string('MAC_address')->nullable();
-
+            $table->longText('image')->nullable();
             $table->timestamps();
         });
     }
