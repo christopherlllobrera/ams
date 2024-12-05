@@ -18,6 +18,7 @@ use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
+use Livewire\Component;
 
 class LicenseuserRelationManager extends RelationManager
 {
@@ -82,6 +83,7 @@ class LicenseuserRelationManager extends RelationManager
                     }),
                 TextInput::make('cost_center')->label('Cost Center')->hint('WBS')
                     ->reactive()->disabled()->dehydrated(),
+                TextInput::make('seat_used')->default(1)->disabled()->dehydrated(),
             ]);
     }
 
@@ -107,15 +109,24 @@ class LicenseuserRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->label('Add User')
-                    ->disableCreateAnother(),
+                    ->disableCreateAnother()
+                    ->after(function (Component $livewire) {
+                        $livewire->dispatch('refreshSeat');
+                    }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->after(function (Component $livewire) {
+                        $livewire->dispatch('refreshSeat');
+                    }),
                 // Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->after(function (Component $livewire) {
+                            $livewire->dispatch('refreshSeat');
+                        }),
                 ]),
             ]);
     }

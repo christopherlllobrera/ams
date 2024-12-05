@@ -22,6 +22,7 @@ class LicenseUser extends Model
         'department_id',
         'cost_center_id',
         'cost_center',
+        'seat_used',
     ];
 
     public function licenses()

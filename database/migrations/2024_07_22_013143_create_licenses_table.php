@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('categories_id')->nullable();
             $table->string('product_key')->nullable();
             $table->string('seat')->nullable();
+            $table->string('seat_count')->nullable();
             $table->string('supplier_id')->nullable();
             $table->string('manufacturer_id')->nullable();
             $table->string('registered_name')->nullable();

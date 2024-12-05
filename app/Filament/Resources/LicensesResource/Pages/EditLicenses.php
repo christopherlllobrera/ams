@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\LicensesResource\Pages;
 
-use App\Filament\Resources\LicensesResource;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Resources\LicensesResource;
+use Livewire\Attributes\On;
 
 class EditLicenses extends EditRecord
 {
@@ -13,10 +15,9 @@ class EditLicenses extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            // Actions\ViewAction::make(),
-            // Actions\DeleteAction::make(),
-            $this->getSaveFormAction(),
+            $this->getSaveFormAction()->formId('form')->label('Update'),
             $this->getCancelFormAction(),
+            Actions\DeleteAction::make(),
         ];
     }
     protected function getFormActions(): array
@@ -25,5 +26,9 @@ class EditLicenses extends EditRecord
             $this->getSaveFormAction()->hidden(),
             $this->getCancelFormAction()->hidden(),
         ];
+    }
+    #[On('refreshSeat')]
+    public function refresh(): void
+    {
     }
 }

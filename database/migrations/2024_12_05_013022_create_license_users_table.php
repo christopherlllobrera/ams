@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('department_id')->nullable();
             $table->string('cost_center_id')->nullable();
             $table->string('cost_center')->nullable();
+            $table->string('seat_used')->nullable();
             $table->timestamps();
         });
     }
