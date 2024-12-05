@@ -34,7 +34,7 @@ return new class extends Migration
             $table->string('purchase_cost')->nullable();
             $table->string('good_receipt')->nullable();
             $table->string('delivery_receipt')->nullable();
-            $table->string('delivery_date')->nullable();
+            $table->date('delivery_date')->nullable();
             $table->date('start_of_warranty')->nullable();
             $table->date('end_of_warranty')->nullable();
             $table->longText('asset_attachment')->nullable();

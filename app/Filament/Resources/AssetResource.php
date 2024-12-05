@@ -76,37 +76,8 @@ class AssetResource extends Resource
                                 'Peripherals' => 'Peripherals',
                             ])
                             ->live()
-                            // ->afterStateUpdated(function (callable $get, callable $set) {
-                            //     $year = Carbon::now()->format('Y');
-                            //     $typeCodeMap = [
-                            //         'Computer' => '01',
-                            //         'Communication Equipment' => '02',
-                            //         'Networking Equipment' => '03',
-                            //         'Storage Devices' => '04',
-                            //         'Servers' => '05',
-                            //         'Peripherals' => '06',
-                            //         'Office Supplies & Equipment' => '07',
-                            //         'Consumables' => '08',
-                            //         'Wiring' => '09',
-                            //         'Other' => '10'
-                            //     ];
-                            //     $selectedType = $get('asset_type');
-                            //     $typeCode = $typeCodeMap[$selectedType] ?? '00';
-                            //     $lastAsset = Asset::where('company_number', 'LIKE', "OE-{$typeCode}-{$year}-%")
-                            //         ->orderBy('company_number', 'desc')
-                            //         ->first();
-                            //     if ($lastAsset) {
-                            //         $parts = explode('-', $lastAsset->company_number);
-                            //         $lastNumber = (int) $parts[3];
-                            //         $newNumber = str_pad(++$lastNumber, 4, '0', STR_PAD_LEFT);
-                            //     } else {
-                            //         $newNumber = '0001';
-                            //     }
-                            //     $companyNumber = "OE-{$typeCode}-{$year}-{$newNumber}";
-                            //     $set('company_number', $companyNumber);
-                            // })
                             ->afterStateUpdated(function (callable $get, callable $set) {
-                                $year = now()->format('Y');
+                                $year = Carbon::now()->format('Y');
                                 $typeCodeMap = [
                                     'Laptop' => '01',
                                     'Desktop' => '02',
@@ -115,26 +86,53 @@ class AssetResource extends Resource
                                     'Networking Equipment' => '05',
                                     'Communication Equipment' => '06',
                                     'Peripherals' => '07',
-                                ];
 
+                                ];
                                 $selectedType = $get('asset_type');
                                 $typeCode = $typeCodeMap[$selectedType] ?? '00';
-
                                 $lastAsset = Asset::where('company_number', 'LIKE', "OE-{$typeCode}-{$year}-%")
                                     ->orderBy('company_number', 'desc')
                                     ->first();
-
                                 if ($lastAsset) {
                                     $parts = explode('-', $lastAsset->company_number);
-                                    $lastNumber = (int)$parts[3];
+                                    $lastNumber = (int) $parts[3];
                                     $newNumber = str_pad(++$lastNumber, 4, '0', STR_PAD_LEFT);
                                 } else {
                                     $newNumber = '0001';
                                 }
-
                                 $companyNumber = "OE-{$typeCode}-{$year}-{$newNumber}";
                                 $set('company_number', $companyNumber);
                             })
+                            // ->afterStateUpdated(function (callable $get, callable $set) {
+                            //     $year = now()->format('Y');
+                            //     $typeCodeMap = [
+                            //         'Laptop' => '01',
+                            //         'Desktop' => '02',
+                            //         'Monitor' => '03',
+                            //         'Printer' => '04',
+                            //         'Networking Equipment' => '05',
+                            //         'Communication Equipment' => '06',
+                            //         'Peripherals' => '07',
+                            //     ];
+
+                            //     $selectedType = $get('asset_type');
+                            //     $typeCode = $typeCodeMap[$selectedType] ?? '00';
+
+                            //     $lastAsset = Asset::where('company_number', 'LIKE', "OE-{$typeCode}-{$year}-%")
+                            //         ->orderBy('company_number', 'desc')
+                            //         ->first();
+
+                            //     if ($lastAsset) {
+                            //         $parts = explode('-', $lastAsset->company_number);
+                            //         $lastNumber = (int)$parts[3];
+                            //         $newNumber = str_pad(++$lastNumber, 4, '0', STR_PAD_LEFT);
+                            //     } else {
+                            //         $newNumber = '0001';
+                            //     }
+
+                            //     $companyNumber = "OE-{$typeCode}-{$year}-{$newNumber}";
+                            //     $set('company_number', $companyNumber);
+                            // })
                             ->searchable()->preload(),
                         Select::make('asset_categories')
                             ->label('Categories')

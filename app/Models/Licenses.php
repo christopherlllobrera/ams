@@ -41,9 +41,9 @@ class Licenses extends Model
         return $this->belongsTo(Supplier::class);
     }
 
-    public function routeNotificationForMail()
+    public function licenseusers()
     {
-        return $this->registered_email;
+        return $this->hasMany(LicenseUser::class);
     }
 
 }
