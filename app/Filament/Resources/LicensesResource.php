@@ -22,6 +22,7 @@ use Filament\Support\Enums\FontFamily;
 use Filament\Support\Enums\FontWeight;
 use Filament\Forms\Components\TextArea;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\LicensesResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LicensesResource\RelationManagers;
+use App\Filament\Resources\LicensesResource\RelationManagers\LicenseuserRelationManager;
 
 class LicensesResource extends Resource
 {
@@ -198,6 +200,9 @@ class LicensesResource extends Resource
                     ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: true),
 
             ])
+            ->recordUrl(
+                fn (Model $record): string => LicensesResource::getUrl('edit', ['record' => $record->id]),
+            )
             ->filters([
                 SelectFilter::make('categories_id')
                     ->label('Category')
@@ -260,7 +265,7 @@ class LicensesResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            LicenseuserRelationManager::class,
         ];
     }
 

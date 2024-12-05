@@ -18,37 +18,33 @@ class AssetCategoriesSeeder extends Seeder
         $categories = [
             // Computer
             [
-                'asset_type' => 'Computer',
-                'categories' => 'Desktop',
+                'asset_type' => 'Laptop',
+                'categories' => 'N/A',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'asset_type' => 'Computer',
-                'categories' => 'Laptop',
+                'asset_type' => 'Desktop',
+                'categories' => 'N/A',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'asset_type' => 'Printer',
+                'categories' => 'N/A',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
 
-            // Communication Equipment
             [
-                'asset_type' => 'Communication Equipment',
-                'categories' => 'IP Phone',
+                'asset_type' => 'Desktop',
+                'categories' => 'N/A',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
-            [
-                'asset_type' => 'Communication Equipment',
-                'categories' => 'Smart Phone',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Communication Equipment',
-                'categories' => 'Tablet',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
+
+
+
 
             // Networking Equipment
             [
@@ -100,84 +96,22 @@ class AssetCategoriesSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
 
-            // Storage Devices
+            // Communication Equipment
             [
-                'asset_type' => 'Storage Devices',
-                'categories' => 'Hard Disk Drive',
+                'asset_type' => 'Communication Equipment',
+                'categories' => 'IP Phone',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'asset_type' => 'Storage Devices',
-                'categories' => 'Solid State Drive',
+                'asset_type' => 'Communication Equipment',
+                'categories' => 'Smart Phone',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'asset_type' => 'Storage Devices',
-                'categories' => 'Network Attached Storage (NAS)',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Storage Devices',
-                'categories' => 'Backup Drive',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Storage Devices',
-                'categories' => 'Flash Drive',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Storage Devices',
-                'categories' => 'Memory Card',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-
-            // Servers
-            [
-                'asset_type' => 'Servers',
-                'categories' => 'Rack Server',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Servers',
-                'categories' => 'Blade Server',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Servers',
-                'categories' => 'Tower Server',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Servers',
-                'categories' => 'Micro Server',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Servers',
-                'categories' => 'Mainframe',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Servers',
-                'categories' => 'Supercomputer',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Servers',
-                'categories' => 'Physical Server',
+                'asset_type' => 'Communication Equipment',
+                'categories' => 'Tablet',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -195,18 +129,7 @@ class AssetCategoriesSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
-            [
-                'asset_type' => 'Peripherals',
-                'categories' => 'Mouse',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Peripherals',
-                'categories' => 'Printer',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
+
             [
                 'asset_type' => 'Peripherals',
                 'categories' => 'Scanner',
@@ -292,320 +215,6 @@ class AssetCategoriesSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
 
-            // Office Supplies & Equipment
-            [
-                'asset_type' => 'Office Supplies & Equipment',
-                'categories' => 'Desk',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Office Supplies & Equipment',
-                'categories' => 'Chair',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Office Supplies & Equipment',
-                'categories' => 'Filing Cabinet',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Office Supplies & Equipment',
-                'categories' => 'Shelves',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Office Supplies & Equipment',
-                'categories' => 'Whiteboard',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Office Supplies & Equipment',
-                'categories' => 'Projector Screen',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Office Supplies & Equipment',
-                'categories' => 'Stapler',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Office Supplies & Equipment',
-                'categories' => 'Hole Punch',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Office Supplies & Equipment',
-                'categories' => 'Scissors',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Office Supplies & Equipment',
-                'categories' => 'Notebooks',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Office Supplies & Equipment',
-                'categories' => 'Laminator',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Office Supplies & Equipment',
-                'categories' => 'Shredder',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Office Supplies & Equipment',
-                'categories' => 'Calculator',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-
-            // Wiring and Cabling
-            [
-                'asset_type' => 'Wiring and Cabling',
-                'categories' => 'Ethernet Cable',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Wiring and Cabling',
-                'categories' => 'Fiber Optic Cable',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Wiring and Cabling',
-                'categories' => 'Coaxial Cable',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Wiring and Cabling',
-                'categories' => 'Twisted Pair Cable',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Wiring and Cabling',
-                'categories' => 'Patch Cable',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Wiring and Cabling',
-                'categories' => 'Cable Tester',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Wiring and Cabling',
-                'categories' => 'Cable Crimper',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Wiring and Cabling',
-                'categories' => 'Cable Stripper',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Wiring and Cabling',
-                'categories' => 'Cable Ties',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Wiring and Cabling',
-                'categories' => 'Cable Labels',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Wiring and Cabling',
-                'categories' => 'Cable Management Tools',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Ink Cartridges',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Toner Cartridges',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Printer Paper',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Batteries',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Tape',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Label',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Stamp',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Envelope',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Pen',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Pencils',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Highlighters',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Markers',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Rubber Bands',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Paper Clips',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Binder Clips',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Staples',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Rubber Stamps',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Sticky Notes',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Glue',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Glue',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Scissor',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Eraser',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],[
-                'asset_type' => 'Consumables',
-                'categories' => 'Sharpeners',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Staplers',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Hole Punches',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Laminating Pouches',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Binding Combs',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'asset_type' => 'Consumables',
-                'categories' => 'Shredder Bags',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
         ];
 
         DB::table('asset_categories')->insert($categories);

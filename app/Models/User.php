@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use PharIo\Manifest\License;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Traits\HasPermissions;
 
@@ -58,6 +59,10 @@ class User extends Authenticatable
 
     public function asset()
     {
-        return $this->hasMany(Asset::class,'personnel_no');
+        return $this->hasMany(Asset::class);
+    }
+    public function license()
+    {
+        return $this->hasMany(License::class);
     }
 }

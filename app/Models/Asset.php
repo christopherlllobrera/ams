@@ -38,7 +38,6 @@ class Asset extends Model
         'delivery_receipt',
         'end_of_warranty',
         'start_of_warranty',
-        // 'aging',
         'purchase_attachment',
 
         //specification
@@ -87,7 +86,6 @@ class Asset extends Model
     {
         return $this->belongsTo(User::class, 'personnel_no');
     }
-
     public function assetuser()
     {
         return $this->hasMany(AssetUser::class , 'asset_id');
