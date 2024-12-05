@@ -15,7 +15,7 @@ class EditAsset extends EditRecord
         return [
             // Actions\ViewAction::make(),
             // Actions\DeleteAction::make(),
-            $this->getSaveFormAction(),
+            $this->getSaveFormAction()->formId('form'),
             $this->getCancelFormAction(),
         ];
     }

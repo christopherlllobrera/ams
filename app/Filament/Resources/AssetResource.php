@@ -66,15 +66,12 @@ class AssetResource extends Resource
                         TextInput::make('serial_number')->label('Serial Number')->minLength(12)->maxLength(13),
                         Select::make('asset_type')
                             ->label('Type')
-                            ->options([
-                                'Laptop' => 'Laptop',
-                                'Desktop' => 'Desktop',
-                                'Monitor' => 'Monitor',
-                                'Printer' => 'Printer',
-                                'Networking Equipment' => 'Networking Equipment',
-                                'Communication Equipment' => 'Communication Equipment',
-                                'Peripherals' => 'Peripherals',
-                            ])
+                            ->options(
+                                AssetCategories::query()
+                                    ->distinct()
+                                    ->pluck('asset_type', 'asset_type')
+                                    ->toArray()
+                            )
                             ->live()
                             ->afterStateUpdated(function (callable $get, callable $set) {
                                 $year = Carbon::now()->format('Y');
@@ -137,27 +134,14 @@ class AssetResource extends Resource
                         Select::make('asset_categories')
                             ->label('Categories')
                             ->options(function (callable $get) {
-                                $categoriesMap = [
-                                    'Laptop' => ['N/A'],
-                                    'Desktop' => ['N/A'],
-                                    'Monitor' => ['N/A'],
-                                    'Printer' => ['N/A'],
-                                    'Networking Equipment' => [
-                                        'Firewall', 'Router', 'Switch', 'Access Point', 'Network Rack',
-                                        'Network Cabinet', 'Patch Panels', 'Cable Management Tools',
-                                    ],
-                                    'Communication Equipment' => [
-                                        'IP Phone', 'Smart Phone', 'Tablet',
-                                    ],
-                                    'Peripherals' => [
-                                        'Keyboard', 'Mouse', 'Printer', 'Scanner', 'Projector', 'Webcam',
-                                        'Speaker', 'Headset', 'Microphone', 'Docking Station', 'USB Hub',
-                                        'UPS', 'Surge Protector', 'Charger', 'Battery', 'Power Supply', 'Laptop Bag',
-                                    ],
-                                ];
-
                                 $assetType = $get('asset_type');
-                                return $categoriesMap[$assetType] ?? [];
+                                if (!$assetType) {
+                                    return [];
+                                }
+                                return AssetCategories::query()
+                                    ->where('asset_type', $assetType)
+                                    ->pluck('categories', 'categories')
+                                    ->toArray();
                             })
                             ->reactive()
                             // ->required()

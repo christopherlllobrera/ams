@@ -32,6 +32,8 @@ use App\Filament\Resources\LicensesResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LicensesResource\RelationManagers;
 use App\Filament\Resources\LicensesResource\RelationManagers\LicenseuserRelationManager;
+use App\Models\LicenseUser;
+use Filament\Forms\Components\Placeholder;
 
 class LicensesResource extends Resource
 {
@@ -63,14 +65,19 @@ class LicensesResource extends Resource
                         TextInput::make('software_name')
                             ->label('Software Name')
                             ->placeholder('Software Name')
-                            ->required(),
+                            ->required()
+                            ->disabledOn('edit'),
                         TextInput::make('product_key')
-                            ->label('Product Key')
-                            ->placeholder('Product Key')
-                            ->required(),
+                            ->label('Product Key')->placeholder('Product Key')
+                            ->required()->disabledOn('edit'),
+                        TextInput::make('seat')
+                            ->label('Seat')->placeholder('Seat')->numeric()
+                            ->required()->disabledOn('edit'),
+                        Placeholder::make('seat_used')
+                            ->label('Seat Used')
+                            ->content( fn (Licenses $record)=> $record->totalSeat())->hiddenOn('create'),
                         Select::make('categories_id')
-                            ->label('Category')
-                            ->placeholder('Category')
+                            ->label('Category')->placeholder('Category')
                             ->options([
                                 'Productivity Software' => 'Productivity Software',
                                 'Security Software' => 'Security Software',
@@ -78,12 +85,8 @@ class LicensesResource extends Resource
                                 'Operating Software' => 'Operating Software',
                                 'Multimedia Software' => 'Multimedia Software',
                                 'Business Software' => 'Business Software',
-                            ]),
-                        TextInput::make('seat')
-                            ->label('Seat')
-                            ->placeholder('Seat')
-                            ->numeric()
-                            ->required(),
+                            ])
+                            ->disabledOn('edit'),
                         Select::make('supplier_id')
                             ->options(Supplier::query()->pluck('supplier_name', 'id')->toArray())
                             ->label('Supplier Name')->placeholder('Company Name')
@@ -95,17 +98,14 @@ class LicensesResource extends Resource
                         TextInput::make('registered_name')
                             ->label('Registered Name')
                             ->placeholder('Registered Name')
-                            ->required(),
+                            ->required()->disabledOn('edit'),
                         TextInput::make('registered_email')
-                            ->label('Registered Email')
-                            ->placeholder('Registered Email')
-                            ->required()
-                            ->email(),
+                            ->label('Registered Email')->placeholder('Registered Email')
+                            ->required()->email()->disabledOn('edit'),
+
                         TextArea::make('license_notes')
-                            ->label('License Notes')
-                            ->placeholder('License Notes')
-                            ->columnSpanFull()->autosize(true)
-                            ->rows(2)
+                            ->label('License Notes')->placeholder('License Notes')
+                            ->columnSpanFull()->autosize(true)->rows(2)
                             ->live()->reactive()
                             ->hint(function ($state) {
                                 $singleSmsCharactersCount = 255;
@@ -117,15 +117,6 @@ class LicensesResource extends Resource
                                 $leftCharacters = $singleSmsCharactersCount - ($charactersCount % $singleSmsCharactersCount);
                                 return $leftCharacters . ' characters';
                             }),
-                        FileUpload::make('license_attachment')->label('Attachment')
-                            ->multiple()->columnSpanFull()
-                            ->acceptedFileTypes(['image/*', 'application/vnd.ms-excel', 'application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
-                            ->uploadingMessage('Uploading License Attachment...')
-                            //Storage Setting
-                            ->preserveFilenames()->maxSize(50000) //50MB
-                            ->disk('public')->directory('License Attachment')
-                            ->visibility('public')->deletable(false)
-                            ->previewable()->downloadable()->openable()->reorderable(),
                     ])
                     ->columnspan(2)->columns(2),
                 Section::make('Purchase Detail')
@@ -160,8 +151,17 @@ class LicensesResource extends Resource
                             // ->required()
                             ,
                         DatePicker::make('license_expiration_date')
-                            ->label('Expiration Date')
+                            ->label('Expiration Date'),
                             //->required()
+                        FileUpload::make('license_attachment')->label('Attachment')
+                            ->multiple()->columnSpanFull()
+                            ->acceptedFileTypes(['image/*', 'application/vnd.ms-excel', 'application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
+                            ->uploadingMessage('Uploading License Attachment...')
+                            //Storage Setting
+                            ->preserveFilenames()->maxSize(50000) //50MB
+                            ->disk('public')->directory('License Attachment')
+                            ->visibility('public')->deletable(false)
+                            ->previewable()->downloadable()->openable()->reorderable()
                             ,
                     ])
             ])->columns(3);
@@ -178,6 +178,9 @@ class LicensesResource extends Resource
                 TextColumn::make('categories_id')->label('Category')
                     ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('seat')->label('Seat') ->badge()->color('success')
+                    ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('seat_used')->label('Seat Used') ->badge()->color('danger')
+                    ->getStateUsing(fn (Licenses $record) => $record->totalSeat())
                     ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('supplier.supplier_name')->label('Supplier')
                     ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: true),

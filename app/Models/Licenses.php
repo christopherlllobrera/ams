@@ -15,6 +15,7 @@ class Licenses extends Model
         'categories_id',
         'product_key',
         'seat',
+        'seat_count',
         'supplier_id',
         'manufacturer_id',
         'registered_name',
@@ -31,6 +32,11 @@ class Licenses extends Model
         'license_attachment' => 'array',
         'license_expiration_date' => 'datetime',
     ];
+
+    public function totalSeat(): int
+    {
+        return $this->licenseusers()->sum('seat_used');
+    }
 
     public function manufacturer()
     {
