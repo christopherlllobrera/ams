@@ -31,7 +31,7 @@ class LocationResource extends Resource
 
     // protected static ?string $navigationIcon = 'heroicon-o-map';
 
-    protected static ?string $navigationGroup = 'MIESCOR Management';
+    protected static ?string $navigationGroup = 'Deployment Management';
 
     protected static ?int $navigationSort = 4;
 
@@ -148,29 +148,37 @@ class LocationResource extends Resource
                 TextColumn::make('location_name')
                     ->label('Location Name')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ,
                 TextColumn::make('parent_address')
                     ->label('Parent Location')
-                    ->searchable()
-                    ->sortable(),
+                    // ->searchable()
+                    // ->sortable()
+                    ,
                 TextColumn::make('location_address')
                     ->label('Address')
-                    ->searchable(),
+                    // ->searchable()
+                    ,
                 TextColumn::make('location_country')
                     ->label('Country')
-                    ->searchable(),
+                    // ->searchable()
+                    ,
                 TextColumn::make('region.region_name')
                     ->label('Region')
-                    ->searchable(),
+                    // ->searchable()
+                    ,
                 TextColumn::make('province.province_name')
                     ->label('Province')
-                    ->searchable(),
+                    // ->searchable()
+                    ,
                 TextColumn::make('municipality.municipality_name')
                     ->label('City')
-                    ->searchable(),
+                    // ->searchable()
+                    ,
                 TextColumn::make('location_zip')
                     ->label('Zip')
-                    ->searchable(),
+                    // ->searchable()
+                    ,
             ])
             ->filters([
                 //

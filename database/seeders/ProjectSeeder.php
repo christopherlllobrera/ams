@@ -9,14 +9,11 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ProjectSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         DB::disableQueryLog();
         LazyCollection::make(function () {
-            $file = fopen(public_path('project_name.csv'), 'r');
+            $file = fopen(public_path('project.csv'), 'r');
             while (($line = fgetcsv($file, 4096)) !== false) {
                 $dataString = implode(',', $line);
                 $row = explode(',', $dataString);
@@ -29,8 +26,9 @@ class ProjectSeeder extends Seeder
                 DB::table('projects')->insert($lines->map(function ($line) {
                     return [
                         'id' => $line[0],
-                        'cost_center' => $line[1],
-                        'cost_center_name' => $line[2],
+                        'wbs' => $line[1],
+                        'project_name' => $line[2],
+                        'project_description' => $line[2],
                         'created_at' => now(),
                         'updated_at' => now(),
                     ];

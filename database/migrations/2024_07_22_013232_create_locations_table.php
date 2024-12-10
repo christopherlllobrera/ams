@@ -6,28 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->string('location_name')->nullable();
-            $table->string('parent_location')->nullable();
+            $table->string('region_id')->nullable();
+            $table->string('province_id')->nullable();
+            $table->string('municipality_id')->nullable();
             $table->string('location_address')->nullable();
-            $table->string('municipality_id')->constraint()->cascadeOnDelete()->nullable();
-            $table->string('province_id')->constraint()->cascadeOnDelete()->nullable();
-            $table->string('region_id')->constraint()->cascadeOnDelete()->nullable();
-            $table->string('location_country')->nullable();
-            $table->string('location_zip')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('locations');

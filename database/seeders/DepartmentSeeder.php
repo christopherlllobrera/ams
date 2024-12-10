@@ -13,7 +13,7 @@ class DepartmentSeeder extends Seeder
     {
         DB::disableQueryLog();
         LazyCollection::make(function () {
-            $file = fopen(public_path('Organizational_Unit.csv'), 'r');
+            $file = fopen(public_path('Department2024.csv'), 'r');
             while (($line = fgetcsv($file, 4096)) !== false) {
                 $dataString = implode(',', $line);
                 $row = explode(',', $dataString);
@@ -25,8 +25,9 @@ class DepartmentSeeder extends Seeder
             ->each(function ($lines) {
                 DB::table('departments')->insert($lines->map(function ($line) {
                     return [
-                        'department_name' => $line[1],
-                        'department_abbreviation' => $line[2],
+                        'id' => $line[0],
+                        'cost_center' => $line[1],
+                        'department_name' => $line[2],
                         'created_at' => now(),
                         'updated_at' => now(),
                     ];

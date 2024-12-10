@@ -20,8 +20,9 @@ class LicenseUser extends Model
         'middle_name',
         'last_name',
         'department_id',
-        'cost_center_id',
         'cost_center',
+        'project_id',
+        'wbs',
         'seat_used',
     ];
 
@@ -31,7 +32,7 @@ class LicenseUser extends Model
     }
     public function user()
     {
-        return $this->belongsTo(User::class, 'personnel_no');
+        return $this->belongsTo(User::class, 'name');
     }
     public function department()
     {

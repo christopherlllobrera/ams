@@ -21,7 +21,7 @@ class DepartmentResource extends Resource
     protected static ?string $model = Department::class;
 
     // protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
-    protected static ?string $navigationGroup = 'MIESCOR Management';
+    protected static ?string $navigationGroup = 'Deployment Management';
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -34,9 +34,9 @@ class DepartmentResource extends Resource
                             ->label('Department Name')
                             ->placeholder('Name')
                             ->required(),
-                            TextInput::make('department_abbreviation')
-                                ->label('Department Abbreviation')
-                                ->placeholder('Abbreviation')
+                            TextInput::make('cost_center')
+                                ->label('Cost Center')
+                                ->placeholder('Cost Center')
                                 ->required(),
                     ])->columns(2)
             ]);
@@ -49,7 +49,7 @@ class DepartmentResource extends Resource
                 TextColumn::make('department_name')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('department_abbreviation')
+                TextColumn::make('cost_center')
                     ->searchable()
                     ->sortable(),
             ])

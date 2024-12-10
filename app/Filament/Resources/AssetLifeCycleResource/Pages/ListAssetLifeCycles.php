@@ -12,12 +12,13 @@ class ListAssetLifeCycles extends ListRecords
 
     protected static ?string $title = 'Status';
     protected static ?string $breadcrumb = 'Asset Status';
-    
+
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->label('Create New'),
         ];
     }
 }

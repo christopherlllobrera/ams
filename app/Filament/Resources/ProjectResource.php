@@ -22,7 +22,7 @@ class ProjectResource extends Resource
 
     // protected static ?string $navigationIcon = 'heroicon-o-home-modern';
 
-    protected static ?string $navigationGroup = 'MIESCOR Management';
+    protected static ?string $navigationGroup = 'Deployment Management';
 
     protected static ?int $navigationSort = 3;
 
@@ -33,14 +33,12 @@ class ProjectResource extends Resource
             ->schema([
                 Section::make()
                     ->schema([
-                            TextInput::make('cost_center_name')
-                            ->label('Project Name')
-                            ->placeholder('Name')
-                            ->required(),
-                            TextInput::make('cost_center')
-                                ->label('Cost Center')
-                                ->placeholder('Name')
-                                ->required(),
+                        TextInput::make('wbs')
+                            ->label('WBS')->placeholder('Name')->required(),
+                        TextInput::make('project_name')
+                            ->label('Project Name')->placeholder('Name')->required(),
+                        TextInput::make('project_description')
+                            ->label('Project Description')->placeholder('Project Description')->required(),
                     ])->columns(2)
             ]);
     }
@@ -49,8 +47,9 @@ class ProjectResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('cost_center_name'),
-                TextColumn::make('cost_center'),
+                TextColumn::make('wbs'),
+                TextColumn::make('project_name'),
+                TextColumn::make('project_description'),
             ])
             ->filters([
                 //

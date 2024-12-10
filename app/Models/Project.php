@@ -10,8 +10,9 @@ class Project extends Model
     use HasFactory;
 
     protected $fillable = [
-        'cost_center_name',
-        'cost_center',
+        'wbs',
+        'project_name',
+        'project_description'
     ];
 
     public function user()

@@ -23,6 +23,7 @@ use App\Policies\AssetPolicy;
 use App\Models\AssetLifeCycle;
 use App\Policies\CompanyPolicy;
 use App\Policies\ProjectPolicy;
+use App\Policies\ActivityPolicy;
 use App\Policies\LicensesPolicy;
 use App\Policies\LocationPolicy;
 use App\Policies\SupplierPolicy;
@@ -31,6 +32,7 @@ use App\Policies\DepartmentPolicy;
 use App\Policies\PermissionPolicy;
 use App\Policies\ManufacturerPolicy;
 use App\Policies\AssetLifeCyclePolicy;
+use Spatie\Activitylog\Models\Activity;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -48,7 +50,8 @@ class AuthServiceProvider extends ServiceProvider
         Location::class => LocationPolicy::class,
         Manufacturer::class => ManufacturerPolicy::class,
         Project::class => ProjectPolicy::class,
-        Supplier::class => SupplierPolicy::class
+        Supplier::class => SupplierPolicy::class,
+        Activity::class => ActivityPolicy::class,
 
     ];
     public function boot(): void

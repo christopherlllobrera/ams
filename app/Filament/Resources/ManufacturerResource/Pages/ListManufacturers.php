@@ -14,7 +14,7 @@ class ListManufacturers extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-            ->label('Create New'),
+                ->label('Create New'),
         ];
     }
 }

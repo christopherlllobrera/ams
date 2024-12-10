@@ -10,10 +10,11 @@ use Laravel\Sanctum\HasApiTokens;
 use PharIo\Manifest\License;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Traits\HasPermissions;
+use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasPermissions ;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasPermissions, TwoFactorAuthenticatable ;
 
     /**
      * The attributes that are mass assignable.

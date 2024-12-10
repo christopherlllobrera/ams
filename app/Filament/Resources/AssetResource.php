@@ -8,6 +8,11 @@ use Filament\Tables;
 use App\Models\Asset;
 use App\Models\Company;
 use App\Models\Project;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
+use Filament\Forms\Components\Actions\Action;
+use Filament\Resources\Pages\EditRecord;
+use Filament\Notifications\Notification;
 use App\Models\Location;
 use App\Models\Supplier;
 use Filament\Forms\Form;
@@ -56,14 +61,14 @@ class AssetResource extends Resource
         return $form
             ->schema([
                 Section::make('Asset Details')
-                ->icon('heroicon-o-computer-desktop')
+                    ->icon('heroicon-o-computer-desktop')
                     ->schema([
                         Select::make('company_id')->label('Company')
                             ->options(Company::query()->pluck('company_name', 'id'))
                             ->searchable()->preload()
                             ->required(),
                         TextInput::make('asset_code')->label('Asset Code')->hint('Generated from SAP'),
-                        TextInput::make('serial_number')->label('Serial Number')->minLength(12)->maxLength(13),
+                        TextInput::make('serial_number')->label('Serial Number'),
                         Select::make('asset_type')
                             ->label('Type')
                             ->options(
@@ -100,36 +105,6 @@ class AssetResource extends Resource
                                 $companyNumber = "OE-{$typeCode}-{$year}-{$newNumber}";
                                 $set('company_number', $companyNumber);
                             })
-                            // ->afterStateUpdated(function (callable $get, callable $set) {
-                            //     $year = now()->format('Y');
-                            //     $typeCodeMap = [
-                            //         'Laptop' => '01',
-                            //         'Desktop' => '02',
-                            //         'Monitor' => '03',
-                            //         'Printer' => '04',
-                            //         'Networking Equipment' => '05',
-                            //         'Communication Equipment' => '06',
-                            //         'Peripherals' => '07',
-                            //     ];
-
-                            //     $selectedType = $get('asset_type');
-                            //     $typeCode = $typeCodeMap[$selectedType] ?? '00';
-
-                            //     $lastAsset = Asset::where('company_number', 'LIKE', "OE-{$typeCode}-{$year}-%")
-                            //         ->orderBy('company_number', 'desc')
-                            //         ->first();
-
-                            //     if ($lastAsset) {
-                            //         $parts = explode('-', $lastAsset->company_number);
-                            //         $lastNumber = (int)$parts[3];
-                            //         $newNumber = str_pad(++$lastNumber, 4, '0', STR_PAD_LEFT);
-                            //     } else {
-                            //         $newNumber = '0001';
-                            //     }
-
-                            //     $companyNumber = "OE-{$typeCode}-{$year}-{$newNumber}";
-                            //     $set('company_number', $companyNumber);
-                            // })
                             ->searchable()->preload(),
                         Select::make('asset_categories')
                             ->label('Categories')
@@ -146,30 +121,38 @@ class AssetResource extends Resource
                             ->reactive()
                             // ->required()
                             ->searchable()->preload()->live()
-                            ->disabled(fn (callable $get) => !$get('asset_type'))
-                            ,
+                            ->disabled(fn(callable $get) => !$get('asset_type')),
                         TextInput::make('company_number')->label('Company Number')
                             ->dehydrated()
-                            ->readOnly()->required()
-                            ,
-                        Select::make('asset_model_id')->label('Asset Model')
+                            ->readOnly()->required(),
+                        Select::make('asset_model_id')->label('Model')
                             ->options(AssetModel::query()->pluck('asset_model_name', 'id'))
-                            ->searchable()->preload()
-                            ->columnStart([
-                                'xl' => 2,
-                                'md' => 1
-                            ]),
+                            ->searchable()->preload(),
                         Select::make('assetlifecycle_id')->label('Status')
                             ->options(AssetLifeCycle::query()->pluck('status', 'id'))->required(),
                         Select::make('location_id')->label('Location')
                             ->options(Location::all()->pluck('location_name', 'id'))
-                            ->columnStart(1),
+                            ->searchable()->preload(),
                         Select::make('department_id')->label('Department')
-                            ->options(Department::all()->pluck('department_name', 'id'))
-                            ->searchable()->preload(),
-                        Select::make('project_id')->label('Cost Center')->hint('WBS')
-                            ->options(Project::query()->pluck('cost_center_name', 'id'))
-                            ->searchable()->preload(),
+                            ->options(Department::query()->pluck('department_name', 'id'))
+                            ->searchable()->preload()->reactive()
+                            ->disabled(fn (Get $get): bool => !empty($get('project_id'))),
+                        Select::make('project_id')->label('Project')
+                            ->options(Project::query()->pluck('project_name', 'id'))
+                            ->searchable()->preload()->reactive()
+                            ->disabled(fn (Get $get): bool => !empty($get('department_id')))
+                            ->afterStateUpdated(function (Get $get, Set $set) {
+                                $project = $get('project_id');
+                                if ($project){
+                                    $project = Project::find($project);
+                                    $set('wbs', $project->wbs);
+                                } else{
+                                    $set('wbs', null);
+                                }
+                            }),
+                        TextInput::make('wbs')->label('WBS')->hint('Work Breakdown Structure')
+                            ->placeholder('WBS')
+                            ->disabled(fn (Get $get): bool => !empty($get('department_id'))),
                         TextArea::make('asset_note')->label('Asset Note')
                             ->columnSpanFull()
                             ->rows(3),
@@ -187,6 +170,19 @@ class AssetResource extends Resource
                         'lg' => 2,
                         'xl' => 3,
                         '2xl' => 3,
+                    ])
+                    ->footerActions([
+                        fn (string $operation): Action => Action::make('save')
+                            ->action(function (Section $component, EditRecord $livewire) {
+                                $livewire->saveFormComponentOnly($component);
+
+                                Notification::make()
+                                    ->title('Asset Details saved')
+                                    ->body('The asset details have been saved successfully.')
+                                    ->success()
+                                    ->send();
+                            })
+                            ->visible($operation === 'edit'),
                     ]),
                 Section::make('Purchase Details')
                     ->icon('heroicon-o-tag')
@@ -197,7 +193,7 @@ class AssetResource extends Resource
                             ->mask(RawJs::make('$money($input)'))
                             ->inputMode('decimal')->prefix('₱'),
                         Select::make('depreciation_year')->label('Depreciation Year')
-                            ->options(collect(range(2020, 2035))->reverse()->mapWithKeys(fn ($year) => [$year => $year])),
+                            ->options(collect(range(2020, 2035))->reverse()->mapWithKeys(fn($year) => [$year => $year])),
                         DatePicker::make('EOL_date')->label('EOL')->hint('End of Life'),
                         TextInput::make('purchase_receipt')->label('Purchase Receipt'),
                         DatePicker::make('purchase_date')->label('Purchase Date'),
@@ -209,8 +205,7 @@ class AssetResource extends Resource
                             ->helperText('Warranty Terms'),
                         DatePicker::make('end_of_warranty')->label('Warranty End')
                             ->helperText('Warranty Terms'),
-                        TextInput::make('good_receipt')->label('GR')->hint('Good Receipt')
-                            ,
+                        TextInput::make('good_receipt')->label('GR')->hint('Good Receipt'),
                         FileUpload::make('asset_attachment')->label('Attachment')
                             ->multiple()->columnSpanFull()
                             ->acceptedFileTypes(['image/*', 'application/vnd.ms-excel', 'application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
@@ -234,9 +229,22 @@ class AssetResource extends Resource
                         'lg' => 2,
                         'xl' => 3,
                         '2xl' => 3,
+                    ])
+                    ->footerActions([
+                        fn (string $operation): Action => Action::make('save')
+                            ->action(function (Section $component, EditRecord $livewire) {
+                                $livewire->saveFormComponentOnly($component);
+                                Notification::make()
+                                    ->title('Purchased details saved')
+                                    ->body('The purchased details have been saved successfully.')
+                                    ->success()
+                                    ->send();
+                            })
+                            ->visible($operation === 'edit'),
                     ]),
                 Section::make('Specification')
                     ->icon('heroicon-o-wrench-screwdriver')
+                    ->visible(fn (Get $get) => $get('asset_type') === 'Computer' || $get('asset_type') === 'Laptop')
                     ->schema([
                         Select::make('operating_system')->label('Operating System')
                             ->options([
@@ -263,6 +271,7 @@ class AssetResource extends Resource
                             ->visibility('public')->deletable(false)
                             ->previewable()->downloadable()->openable()->reorderable(),
                     ])
+
                     ->columns([
                         'sm' => 1,
                         'md' => 2,
@@ -276,8 +285,23 @@ class AssetResource extends Resource
                         'lg' => 2,
                         'xl' => 3,
                         '2xl' => 3,
-                    ]),
+                    ])->footerActions([
+                        fn (string $operation): Action => Action::make('save')
+                            ->action(function (Section $component, EditRecord $livewire) {
+                                $livewire->saveFormComponentOnly($component);
+
+                                Notification::make()
+                                    ->title('Specification saved')
+                                    ->body('The specification have been saved successfully.')
+                                    ->success()
+                                    ->send();
+                            })
+                            ->visible($operation === 'edit'),
+                    ])
+                    ,
+
             ]);
+
         //]
     }
 
@@ -301,7 +325,7 @@ class AssetResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('department.department_name')->label('Department')->searchable()->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
-                TextColumn::make('project.cost_center_name')->label('Project')->searchable()->sortable()
+                TextColumn::make('project.project_name')->label('Project')->searchable()->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('assetlifecycle.status')->label('Status')->searchable()->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
@@ -319,33 +343,33 @@ class AssetResource extends Resource
                     ->options(Location::all()->pluck('location_name', 'id')),
                 SelectFilter::make('department_id')->label('Department')
                     ->options(Department::all()->pluck('department_name', 'id')),
-                SelectFilter::make('project_id')->label('Cost Center')
-                    ->options(Project::query()->pluck('cost_center_name', 'id')),
+                // SelectFilter::make('project_id')->label('Cost Center')
+                //     ->options(Project::query()->pluck('cost_center_name', 'id')),
                 Filter::make('created_at')
                     ->form([
                         DatePicker::make('created_from')
-                            ->placeholder(fn ($state): string => 'Jan 01, '.now()->subYear()->format('Y')),
+                            ->placeholder(fn($state): string => 'Jan 01, ' . now()->subYear()->format('Y')),
                         DatePicker::make('created_until')
-                            ->placeholder(fn ($state): string => now()->format('M d, Y')),
+                            ->placeholder(fn($state): string => now()->format('M d, Y')),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
                                 $data['created_from'] ?? null,
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             )
                             ->when(
                                 $data['created_until'] ?? null,
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     })
                     ->indicateUsing(function (array $data): array {
                         $indicators = [];
                         if ($data['created_from'] ?? null) {
-                            $indicators['created_from'] = 'Asset from '.Carbon::parse($data['created_from'])->toFormattedDateString();
+                            $indicators['created_from'] = 'Asset from ' . Carbon::parse($data['created_from'])->toFormattedDateString();
                         }
                         if ($data['created_until'] ?? null) {
-                            $indicators['created_until'] = 'Asset until '.Carbon::parse($data['created_until'])->toFormattedDateString();
+                            $indicators['created_until'] = 'Asset until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
                         }
 
                         return $indicators;
@@ -362,9 +386,9 @@ class AssetResource extends Resource
                 ]),
             ])
             ->recordUrl(
-                fn (Model $record): string => AssetResource::getUrl('edit', ['record' => $record->id]),
+                fn(Model $record): string => AssetResource::getUrl('edit', ['record' => $record->id]),
             )
-            ;
+        ;
     }
 
 
