@@ -36,28 +36,29 @@ class AssetuserRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Select::make('personnel_no')->label('Personnel No.')
-                    ->options(User::query()->pluck('personnel_no', 'id'))
-                    ->searchable()->preload()->live()->disabledOn('edit')
+                Select::make('name')->label('Full Name')
+                    ->options(User::query()->pluck('name', 'id'))
+                    ->searchable()->preload()->disabledOn('edit')->dehydrated()
                     ->afterStateUpdated(function (Get $get, Set $set) {
-                        $user = $get('personnel_no');
+                        $user = $get('name');
                         if ($user) {
                             $user = User::find($user);
+                            $set('personnel_no', $user->personnel_no);
                             $set('email', $user->email);
-                            $set('name', $user->name);
                             $set('first_name', $user->first_name);
                             $set('middle_name', $user->middle_name);
                             $set('last_name', $user->last_name);
                         } else {
+                            $set('personnel_no', null);
                             $set('email', null);
-                            $set('name', null);
                             $set('first_name', null);
                             $set('middle_name', null);
                             $set('last_name', null);
                         }
-                    }),
-                TextInput::make('email')->label('Email')->email()->reactive()->dehydrated()->disabledOn('edit'),
-                TextInput::make('name')->label('Full Name')
+                    })->live()->columnSpanFull()->reactive(),
+                TextInput::make('personnel_no')->label('Personnel No.')
+                    ->reactive()->disabled()->dehydrated(),
+                TextInput::make('email')->label('Email')->email()
                     ->reactive()->disabled()->dehydrated(),
                 Hidden::make('first_name')->label('First Name')
                     ->reactive()->disabled()->dehydrated(),
@@ -67,25 +68,35 @@ class AssetuserRelationManager extends RelationManager
                     ->reactive()->disabled()->dehydrated(),
                 Select::make('department_id')->label('Department')
                     ->options(Department::all()->pluck('department_name', 'id'))
-                    ->searchable()->preload()->disabledOn('edit'),
-                Select::make('cost_center_id')->label('Cost Center Name')->hint('WBS')
-                    ->options(Project::query()->pluck('cost_center_name', 'id'))
-                    ->searchable()->preload()->live()->disabledOn('edit')
+                    ->searchable()->preload()->disabledOn('edit')->columnStart(1)
                     ->afterStateUpdated(function (Get $get, Set $set) {
-                        $project = $get('cost_center_id');
-                        if ($project) {
-                            $project = Project::find($project);
-                            $set('cost_center', $project->cost_center);
-
-                        } else {
-                            $set('cost_center_id', null);
+                        $department = $get('department_id');
+                        if ($department){
+                            $department = Department::find($department);
+                            $set('cost_center', $department->cost_center);
+                        } else{
                             $set('cost_center', null);
                         }
-                    }),
-                TextInput::make('cost_center')->label('Cost Center')->hint('WBS')
+                    })->live()->disabled(fn (Get $get): bool => !empty($get('project_id'))),
+                TextInput::make('cost_center')->label('Cost Center')
                     ->reactive()->disabled()->dehydrated(),
+                Select::make('project_id')->label('Project')
+                    ->options(Project::query()->pluck('project_name', 'id'))
+                    ->searchable()->preload()->reactive()
+                    ->disabled(fn (Get $get): bool => !empty($get('department_id')))
+                    ->afterStateUpdated(function (Get $get, Set $set) {
+                        $project = $get('project_id');
+                        if ($project){
+                            $project = Project::find($project);
+                            $set('wbs', $project->wbs);
+                        } else{
+                            $set('wbs', null);
+                        }
+                    }),
+                TextInput::make('wbs')->label('WBS')->hint('Work Breakdown Structure')
+                    ->placeholder('WBS')->reactive()->disabled()->dehydrated(),
                 DatePicker::make('deployment_date')->disabledOn('edit'),
-                DatePicker::make('return_date')->visibleOn('edit'),
+                DatePicker::make('return_date')->disabledOn('create'),
             ])
             ->columns([
                 'default' => 2,
@@ -104,13 +115,13 @@ class AssetuserRelationManager extends RelationManager
             ->emptyStateHeading('No deployment yet')
             ->columns([
                 TextColumn::make('asset.company_number')->label('Company No.')->sortable()->toggleable(isToggledHiddenByDefault: false),
-                TextColumn::make('user.personnel_no')->label('Personnel No.')->sortable()->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('personnel_no')->label('Personnel No.')->sortable()->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('email')->label('Email')->sortable()->toggleable(isToggledHiddenByDefault: false),
-                TextColumn::make('name')->label('Name')->sortable()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('user.name')->label('Name')->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('first_name')->label('First Name')->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('last_name')->label('Last Name')->sortable()->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('department.department_name')->label('Department')->sortable()->toggleable(isToggledHiddenByDefault: false),
-                TextColumn::make('cost_center')->label('Cost Center')->sortable()->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('department.department_name')->label('Department')->sortable()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('project.project_name')->label('Project')->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deployment_date')->label('Deployment Date')->sortable()->date()->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('return_date')->label('Return Date')->sortable()->date()->toggleable(isToggledHiddenByDefault: false),
             ])
@@ -119,19 +130,14 @@ class AssetuserRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                ->disableCreateAnother()->label('Deploy')
-                // ->action(function(array $data){
-                //     $this->record['asset_id'] = ;
-                //     $this->save();
-                // })
-
+                    ->disableCreateAnother()->label('Deploy')
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->label('Return')
                     ->modalHeading('Return Deployment')
                     ->modalDescription('Add Return date'),
-                // Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

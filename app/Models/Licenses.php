@@ -14,6 +14,7 @@ class Licenses extends Model
         'software_name',
         'categories_id',
         'product_key',
+        'serial_key',
         'seat',
         'seat_count',
         'supplier_id',

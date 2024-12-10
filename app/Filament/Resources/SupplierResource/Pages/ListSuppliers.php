@@ -14,7 +14,7 @@ class ListSuppliers extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-            ->label('Create New')
+                ->label('Create New')
             ->extraAttributes([
                 'class' => 'bg-blue-500 hover:bg-blue-700',
             ]),

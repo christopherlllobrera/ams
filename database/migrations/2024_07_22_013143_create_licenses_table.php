@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('software_name')->nullable();
             $table->string('categories_id')->nullable();
             $table->string('product_key')->nullable();
+            $table->string('serial_key')->nullable();
             $table->string('seat')->nullable();
             $table->string('seat_count')->nullable();
             $table->string('supplier_id')->nullable();

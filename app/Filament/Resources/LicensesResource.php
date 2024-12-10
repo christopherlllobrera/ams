@@ -39,7 +39,7 @@ class LicensesResource extends Resource
 {
     protected static ?string $model = Licenses::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-cog';
+    protected static ?string $navigationIcon = 'heroicon-o-window';
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -70,6 +70,7 @@ class LicensesResource extends Resource
                         TextInput::make('product_key')
                             ->label('Product Key')->placeholder('Product Key')
                             ->required()->disabledOn('edit'),
+
                         TextInput::make('seat')
                             ->label('Seat')->placeholder('Seat')->numeric()
                             ->required()->disabledOn('edit'),
@@ -105,7 +106,7 @@ class LicensesResource extends Resource
 
                         TextArea::make('license_notes')
                             ->label('License Notes')->placeholder('License Notes')
-                            ->columnSpanFull()->autosize(true)->rows(2)
+                            ->columnSpanFull()->autosize(true)->rows(5)
                             ->live()->reactive()
                             ->hint(function ($state) {
                                 $singleSmsCharactersCount = 255;
@@ -146,6 +147,9 @@ class LicensesResource extends Resource
                             // ->required()
                             ->mask(RawJs::make('$money($input)'))
                             ->inputMode('decimal')->prefix('₱'),
+                        TextInput::make('serial_key')
+                            ->label('Serial Key')->placeholder('Serial Key')
+                            ->required()->disabledOn('edit'),
                         DatePicker::make('license_purchase_date')
                             ->label('Purchase Date')
                             // ->required()
@@ -181,10 +185,11 @@ class LicensesResource extends Resource
                     ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('seat_used')->label('Seat Used') ->badge()->color('danger')
                     ->getStateUsing(fn (Licenses $record) => $record->totalSeat())
-                    ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: false),
+                    ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('supplier.supplier_name')->label('Supplier')
                     ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('manufacturer.manufacturer_name')->label('Manufacturer'),
+                TextColumn::make('manufacturer.manufacturer_name')->label('Manufacturer')
+                ->searchable()->sortable(),
                 TextColumn::make('registered_name')->label('Registered Name')
                     ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('registered_email')->label('Registered Email')

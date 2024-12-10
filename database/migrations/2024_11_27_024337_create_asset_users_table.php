@@ -21,8 +21,9 @@ return new class extends Migration
             $table->string('middle_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('department_id')->nullable();
-            $table->string('cost_center_id')->nullable();
             $table->string('cost_center')->nullable();
+            $table->string('project_id')->nullable();
+            $table->string('wbs')->nullable();
             $table->date('deployment_date')->nullable();
             $table->date('return_date')->nullable();
             $table->timestamps();

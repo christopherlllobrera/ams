@@ -21,9 +21,9 @@ class AssetModelResource extends Resource
 
     // protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
 
-    protected static ?string $navigationLabel = 'Asset Model';
+    protected static ?string $navigationLabel = 'Model';
 
-    protected static ?string $navigationGroup = 'Module Management';
+    protected static ?string $navigationGroup = 'Specification Management';
 
 
     protected static ?int $navigationSort = 1;
@@ -50,7 +50,7 @@ class AssetModelResource extends Resource
                     ])
                     ->schema([
                         TextInput::make('asset_model_name')
-                            ->label('Asset Model Name')
+                            ->label('Model Name')
                             ->placeholder('Model Name')
                             ->columnSpanFull()
                             ->required(),
@@ -89,7 +89,7 @@ class AssetModelResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('asset_model_name'),
+                TextColumn::make('asset_model_name')->label('Model'),
                 TextColumn::make('Manufacturer.manufacturer_name'),
                 TextColumn::make('model_notes'),
             ])
