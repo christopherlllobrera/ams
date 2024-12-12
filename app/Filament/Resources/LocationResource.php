@@ -19,6 +19,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextArea;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\LocationResource\Pages;
@@ -180,6 +181,9 @@ class LocationResource extends Resource
                     // ->searchable()
                     ,
             ])
+            ->recordUrl(
+                fn(Model $record): string => LocationResource::getUrl('edit', ['record' => $record->id]),
+            )
             ->filters([
                 //
             ])

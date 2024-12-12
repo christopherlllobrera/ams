@@ -15,6 +15,7 @@ use Filament\Tables\Table;
 use App\Models\LicenseUser;
 use PharIo\Manifest\License;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
@@ -145,5 +146,9 @@ class LicenseUserResource extends Resource
             'create' => Pages\CreateLicenseUser::route('/create'),
             'edit' => Pages\EditLicenseUser::route('/{record}/edit'),
         ];
+    }
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where(Auth::user()->hasRole('AMS-admin') ? [] : ['email' => Auth::user()->email]);
     }
 }
