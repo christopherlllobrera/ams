@@ -12,7 +12,9 @@ use Filament\Forms\Form;
 use App\Models\AssetUser;
 use App\Models\Department;
 use Filament\Tables\Table;
+use Faker\Provider\ar_EG\Text;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
@@ -23,7 +25,6 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\AssetUserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AssetUserResource\RelationManagers;
-use Faker\Provider\ar_EG\Text;
 
 class AssetUserResource extends Resource
 {
@@ -31,7 +32,7 @@ class AssetUserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static ?int $navigationSort = 3;
-    
+
 
     public static function form(Form $form): Form
     {
@@ -155,5 +156,9 @@ class AssetUserResource extends Resource
             'create' => Pages\CreateAssetUser::route('/create'),
             'edit' => Pages\EditAssetUser::route('/{record}/edit'),
         ];
+    }
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where(Auth::user()->hasRole('AMS-admin') ? [] : ['email' => Auth::user()->email]);
     }
 }

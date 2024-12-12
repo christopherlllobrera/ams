@@ -11,6 +11,7 @@ use Faker\Provider\ar_EG\Text;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
@@ -101,6 +102,10 @@ class ManufacturerResource extends Resource
                     ->sortable(),
 
             ])
+
+            ->recordUrl(
+                fn(Model $record): string => ManufacturerResource::getUrl('edit', ['record' => $record->id]),
+            )
             ->filters([
                 //
             ])

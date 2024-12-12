@@ -24,7 +24,6 @@ class Asset extends Model
         'department_id',
         'project_id',
         'asset_note',
-
         'depreciation_cost',
         'depreciation_year',
         'EOL_date',

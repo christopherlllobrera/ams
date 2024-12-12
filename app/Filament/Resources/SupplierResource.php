@@ -2,22 +2,23 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\SupplierResource\Pages;
-use App\Models\Country;
-use App\Models\Municipality;
-use App\Models\Supplier;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
+use App\Models\Country;
+use Filament\Forms\Get;
+use App\Models\Supplier;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Models\Municipality;
+use Filament\Resources\Resource;
 use Illuminate\Support\Collection;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
+use App\Filament\Resources\SupplierResource\Pages;
 
 class SupplierResource extends Resource
 {
@@ -179,6 +180,9 @@ class SupplierResource extends Resource
             ->filters([
                 //
             ])
+            ->recordUrl(
+                fn(Model $record): string => SupplierResource::getUrl('edit', ['record' => $record->id]),
+            )
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),

@@ -23,23 +23,63 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'update-user']);
         Permission::create(['name' => 'delete-user']);
 
+        //
+        Permission::create(['name' => 'create-asset']);
+        Permission::create(['name' => 'view-asset']);
+        Permission::create(['name' => 'update-asset']);
+        Permission::create(['name' => 'delete-asset']);
+
+        //
+        Permission::create(['name' => 'create-license']);
+        Permission::create(['name' => 'view-license']);
+        Permission::create(['name' => 'update-license']);
+        Permission::create(['name' => 'delete-license']);
+
+        //
+        Permission::create(['name' => 'create-deployed']);
+        Permission::create(['name' => 'view-deployed']);
+        Permission::create(['name' => 'update-deployed']);
+        Permission::create(['name' => 'delete-deployed']);
+
         Permission::create(['name' => 'view-logs']);
 
         $this->command->info('Permissions created successfully!');
 
         Role::create(['name' => 'superadmin'])
             ->givePermissionTo([
-            'create-user','update-user','view-user','delete-user',
-            'view-logs',]);
+                'create-asset','view-asset','update-asset','delete-asset',
+                'create-license','view-license','update-license','delete-license',
+                'create-deployed','view-deployed','update-deployed','delete-deployed',
 
-        Role::create(['name' => 'user'])
-            ->givePermissionTo([
-                'create-user','update-user','view-user','delete-user'
+                'create-user','update-user','view-user','delete-user',
+                'view-logs',
             ]);
 
         Role::create(['name' => 'AMS-admin'])
             ->givePermissionTo([
-                'create-user','update-user','view-user','delete-user'
+                'create-asset','view-asset','update-asset','delete-asset',
+                'create-license','view-license','update-license','delete-license',
+                'create-deployed','view-deployed','update-deployed','delete-deployed',
+            ]);
+
+        Role::create(['name' => 'Service-Desk'])
+            ->givePermissionTo([
+                'create-asset','view-asset','update-asset',
+                'create-license','view-license','update-license',
+                'create-deployed','view-deployed','update-deployed',
+            ]);
+
+        Role::create(['name' => 'Remote-IT'])
+            ->givePermissionTo([
+                'create-asset','view-asset',
+                'create-license','view-license',
+                'create-deployed','view-deployed',
+            ]);
+        Role::create(['name' => 'user'])
+            ->givePermissionTo([
+                'view-asset',
+                'view-license',
+                'view-deployed',
             ]);
 
         $this->command->info('Roles created successfully!');
