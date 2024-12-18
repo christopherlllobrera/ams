@@ -37,7 +37,7 @@ class AssetCategoriesSeeder extends Seeder
             ],
 
             [
-                'asset_type' => 'Desktop',
+                'asset_type' => 'Monitor',
                 'categories' => 'N/A',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -91,7 +91,81 @@ class AssetCategoriesSeeder extends Seeder
             ],
             [
                 'asset_type' => 'Networking Equipment',
+                'categories' => 'Antenna',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'asset_type' => 'Networking Equipment',
+                'categories' => 'Starlink',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'asset_type' => 'Networking Equipment',
                 'categories' => 'Cable Management Tools',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            //Multimedia Device
+            [
+                'asset_type' => 'Multimedia Device',
+                'categories' => 'Camera',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'asset_type' => 'Multimedia Device',
+                'categories' => 'Drone',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'asset_type' => 'Multimedia Device',
+                'categories' => 'Intercom System',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'asset_type' => 'Multimedia Device',
+                'categories' => 'Wireless Transmission',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+
+            //Security Device
+            [
+                'asset_type' => 'Security Device',
+                'categories' => 'CCTV Camera',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            //Storage Device
+            [
+                'asset_type' => 'Storage Device',
+                'categories' => 'Backup Storage',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'asset_type' => 'Storage Device',
+                'categories' => 'Network Storage',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+
+            // Server
+            [
+                'asset_type' => 'Server',
+                'categories' => 'Virtual Machine',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+
+            //Time Capture Device
+            [
+                'asset_type' => 'Time Capture Device',
+                'categories' => 'N/A',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -119,7 +193,7 @@ class AssetCategoriesSeeder extends Seeder
             // Peripherals
             [
                 'asset_type' => 'Peripherals',
-                'categories' => 'Monitor',
+                'categories' => 'AVR',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -211,6 +285,12 @@ class AssetCategoriesSeeder extends Seeder
             [
                 'asset_type' => 'Peripherals',
                 'categories' => 'Laptop Bag',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'asset_type' => 'Other',
+                'categories' => 'N/A',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

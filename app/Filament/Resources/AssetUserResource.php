@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\AssetUserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AssetUserResource\RelationManagers;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class AssetUserResource extends Resource
 {
@@ -138,6 +140,11 @@ class AssetUserResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    ExportBulkAction::make()
+                        ->exports([
+                            ExcelExport::make()->withFilename(date('Y-m-d') . ' - Asset User')])
+                        ->label('Export Excel')
+                        ->color('success')
                 ]),
             ]);
     }

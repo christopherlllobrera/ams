@@ -10,6 +10,7 @@ use App\Models\Licenses;
 use App\Models\Supplier;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Models\LicenseUser;
 use Filament\Support\RawJs;
 use App\Models\Manufacturer;
 use Filament\Resources\Resource;
@@ -28,12 +29,14 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\Placeholder;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
+use Filament\Notifications\Notification;
 use App\Filament\Resources\LicensesResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LicensesResource\RelationManagers;
 use App\Filament\Resources\LicensesResource\RelationManagers\LicenseuserRelationManager;
-use App\Models\LicenseUser;
-use Filament\Forms\Components\Placeholder;
 
 class LicensesResource extends Resource
 {
@@ -189,7 +192,7 @@ class LicensesResource extends Resource
                 TextColumn::make('supplier.supplier_name')->label('Supplier')
                     ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('manufacturer.manufacturer_name')->label('Manufacturer')
-                ->searchable()->sortable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('registered_name')->label('Registered Name')
                     ->searchable()->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('registered_email')->label('Registered Email')
@@ -266,6 +269,20 @@ class LicensesResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    ExportBulkAction::make()
+                        ->exports([
+                            ExcelExport::make()->withFilename(date('Y-m-d') . ' - license')])
+                        ->label('Export Excel')
+                        ->color('success')
+                        // ->successNotification(
+                        //     Notification::make()
+                        //     ->title('License Export')
+                        //     ->body('The export is ready. Check in your download folder.')
+                        //     ->success()
+                        //     ->send()
+                        //     // ->sendToDatabase()
+                        // )
+                        ,
                 ]),
             ]);
     }

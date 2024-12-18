@@ -10,9 +10,6 @@ use App\Models\Company;
 use App\Models\Project;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Resources\Pages\EditRecord;
-use Filament\Notifications\Notification;
 use App\Models\Location;
 use App\Models\Supplier;
 use Filament\Forms\Form;
@@ -29,10 +26,13 @@ use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Select;
 use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Components\Section;
+use Filament\Support\Enums\FontWeight;
 use Filament\Forms\Components\TextArea;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use Filament\Resources\Pages\EditRecord;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Pages\SubNavigationPosition;
@@ -40,10 +40,12 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Support\Facades\FilamentView;
 use Filament\Tables\View\TablesRenderHook;
+use Filament\Forms\Components\Actions\Action;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use App\Filament\Resources\AssetResource\Pages;
 use App\Filament\Resources\AssetResource\Pages\EditAsset;
 use App\Filament\Resources\AssetResource\Pages\ViewAsset;
-use App\Filament\Resources\AssetResource\RelationManagers\UserRelationManager;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use App\Filament\Resources\AssetResource\RelationManagers\AssetuserRelationManager;
 
 class AssetResource extends Resource
@@ -88,6 +90,12 @@ class AssetResource extends Resource
                                     'Networking Equipment' => '05',
                                     'Communication Equipment' => '06',
                                     'Peripherals' => '07',
+                                    'Time Capture Device' => '08',
+                                    'Server' => '09',
+                                    'Multimedia Device' => '10',
+                                    'Security Device' => '11',
+                                    'Storage Device' => '12',
+                                    'Other' => '13',
 
                                 ];
                                 $selectedType = $get('asset_type');
@@ -244,7 +252,7 @@ class AssetResource extends Resource
                     ]),
                 Section::make('Specification')
                     ->icon('heroicon-o-wrench-screwdriver')
-                    ->visible(fn (Get $get) => $get('asset_type') === 'Computer' || $get('asset_type') === 'Laptop')
+                    ->visible(fn (Get $get) => $get('asset_type') === 'Computer' || $get('asset_type') === 'Laptop' || $get('asset_type') === 'Time Capture Device')
                     ->schema([
                         Select::make('operating_system')->label('Operating System')
                             ->options([
@@ -312,7 +320,8 @@ class AssetResource extends Resource
                 TextColumn::make('company.company_name')->label('Company')->searchable()->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('company_number')->label('Company No.')->searchable()->sortable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->weight(FontWeight::Bold),
                 TextColumn::make('AssetModel.asset_model_name')->label('Model')->searchable()->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('asset_code')->label('Asset Code')->searchable()->sortable()
@@ -328,7 +337,17 @@ class AssetResource extends Resource
                 TextColumn::make('project.project_name')->label('Project')->searchable()->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('assetlifecycle.status')->label('Status')->searchable()->sortable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Available' => 'success',
+                        'Deployed' => 'primary',
+                        'For Repair' => 'warning',
+                        'Missing' => 'danger',
+                        'For Disposal' => 'gray',
+                        'Disposed' => 'gray',
+                        default => 'primary',
+                    }),
 
             ])
             ->filters([
@@ -383,8 +402,14 @@ class AssetResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    ExportBulkAction::make()
+                        ->exports([
+                            ExcelExport::make()->withFilename(date('Y-m-d') . ' - asset')])
+                        ->label('Export Excel')
+                        ->color('success')
                 ]),
             ])
+            ->defaultSort('id', 'desc')
             ->recordUrl(
                 fn(Model $record): string => AssetResource::getUrl('edit', ['record' => $record->id]),
             )
