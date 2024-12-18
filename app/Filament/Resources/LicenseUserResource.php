@@ -23,6 +23,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use App\Filament\Resources\LicenseUserResource\Pages;
 use App\Filament\Resources\LicenseUserResource\RelationManagers;
 
@@ -128,6 +130,11 @@ class LicenseUserResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    ExportBulkAction::make()
+                        ->exports([
+                            ExcelExport::make()->withFilename(date('Y-m-d') . ' - license User')])
+                        ->label('Export Excel')
+                        ->color('success')
                 ]),
             ]);
     }

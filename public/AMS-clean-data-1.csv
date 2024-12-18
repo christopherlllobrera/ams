@@ -1,3 +1,4 @@
+id,Company,AssetName,Asset Code,Type,Categories,Model,Serial,Status,Location,Department,Project,asset note,Depreciation Cost,Depreciation Year,EOL Date,Supplier,Purchase Receipt,Purchase Date,Purchase Order,Purchase Cost,good receipt,delivery receipt,delivery date,start of warranty,end of warranty,asset attachment,OS,Processor,RAM,storage,GPU,Color,MAC,Image,Created at,Updated at
 1,1,OE-05-2298,240002110,,,,NHQ3FSP00482503B553400,,,5,,Laptop CAD,,,,S1 TECHNOLOGIES INC,,2025-01-01,,,,,2025-01-01,2025-01-01,2025-01-01,,,,,,,,,,2025-01-01,2025-01-01
 2,1,OE-05-2600,,,,,SMP1XPJ7B,,,14,,Laptop,,,,COMPLINK MARKETING INC.,,2025-01-01,,,,,2025-01-01,2025-01-01,2025-01-01,,,,,,,,,,2025-01-01,2025-01-01
 3,1,OE-05-1278,240001757,,,,10LRN12,,,,,Laptop,,,,ACCENT MICRO TECHNOLOGIES INC / AMTI,,2025-01-01,,,,,2025-01-01,2025-01-01,2025-01-01,,,,,,,,,,2025-01-01,2025-01-01

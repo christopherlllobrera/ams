@@ -13,7 +13,7 @@ class AssetSeeder extends Seeder
     {
         DB::disableQueryLog();
         LazyCollection::make(function () {
-            $file = fopen(public_path('AMS-clean-data-1.csv'), 'r');
+            $file = fopen(public_path('Asset_db_clean.csv'), 'r');
             while (($line = fgetcsv($file, 4096)) !== false) {
                 $dataString = implode(',', $line);
                 $row = explode(',', $dataString);

@@ -16,4 +16,8 @@ class ViewAsset extends ViewRecord
             Actions\EditAction::make(),
         ];
     }
+    public function getTitle(): string
+    {
+        return 'Asset: ' . $this->record->company_number;
+    }
 }
