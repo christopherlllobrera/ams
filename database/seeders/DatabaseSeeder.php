@@ -37,13 +37,13 @@ class DatabaseSeeder extends Seeder
             ProvinceSeeder::class,
             MunicipalitySeeder::class,
             BarangaySeeder::class,
-            UserSeeder::class,
-            PermissionSeeder::class,
             AssetCategoriesSeeder::class,
             ProjectSeeder::class,
             ModelSeeder::class,
-            AssetSeeder::class,
             LicenseSeeder::class,
+            AssetSeeder::class,
+            UserSeeder::class,
+            PermissionSeeder::class,
         ]);
     }
 }
