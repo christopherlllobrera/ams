@@ -27,7 +27,7 @@ use Filament\Forms\Components\Select;
 use Illuminate\Support\Facades\Blade;
 use Filament\Forms\Components\Section;
 use Filament\Support\Enums\FontWeight;
-use Filament\Forms\Components\TextArea;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
@@ -144,23 +144,23 @@ class AssetResource extends Resource
                         Select::make('department_id')->label('Department')
                             ->options(Department::query()->pluck('department_name', 'id'))
                             ->searchable()->preload()->reactive()
-                            ->disabled(fn (Get $get): bool => !empty($get('project_id'))),
+                            ->disabled(fn(Get $get): bool => !empty($get('project_id'))),
                         Select::make('project_id')->label('Project')
                             ->options(Project::query()->pluck('project_name', 'id'))
                             ->searchable()->preload()->reactive()
-                            ->disabled(fn (Get $get): bool => !empty($get('department_id')))
+                            ->disabled(fn(Get $get): bool => !empty($get('department_id')))
                             ->afterStateUpdated(function (Get $get, Set $set) {
                                 $project = $get('project_id');
-                                if ($project){
+                                if ($project) {
                                     $project = Project::find($project);
                                     $set('wbs', $project->wbs);
-                                } else{
+                                } else {
                                     $set('wbs', null);
                                 }
                             }),
                         TextInput::make('wbs')->label('WBS')->hint('Work Breakdown Structure')
                             ->placeholder('WBS')
-                            ->disabled(fn (Get $get): bool => !empty($get('department_id'))),
+                            ->disabled(fn(Get $get): bool => !empty($get('department_id'))),
                         TextArea::make('asset_note')->label('Asset Note')
                             ->columnSpanFull()
                             ->rows(3),
@@ -180,7 +180,7 @@ class AssetResource extends Resource
                         '2xl' => 3,
                     ])
                     ->footerActions([
-                        fn (string $operation): Action => Action::make('save')
+                        fn(string $operation): Action => Action::make('save')
                             ->action(function (Section $component, EditRecord $livewire) {
                                 $livewire->saveFormComponentOnly($component);
 
@@ -239,7 +239,7 @@ class AssetResource extends Resource
                         '2xl' => 3,
                     ])
                     ->footerActions([
-                        fn (string $operation): Action => Action::make('save')
+                        fn(string $operation): Action => Action::make('save')
                             ->action(function (Section $component, EditRecord $livewire) {
                                 $livewire->saveFormComponentOnly($component);
                                 Notification::make()
@@ -252,7 +252,7 @@ class AssetResource extends Resource
                     ]),
                 Section::make('Specification')
                     ->icon('heroicon-o-wrench-screwdriver')
-                    ->visible(fn (Get $get) => $get('asset_type') === 'Computer' || $get('asset_type') === 'Laptop' || $get('asset_type') === 'Time Capture Device')
+                    ->visible(fn(Get $get) => $get('asset_type') === 'Computer' || $get('asset_type') === 'Laptop' || $get('asset_type') === 'Time Capture Device')
                     ->schema([
                         Select::make('operating_system')->label('Operating System')
                             ->options([
@@ -294,7 +294,7 @@ class AssetResource extends Resource
                         'xl' => 3,
                         '2xl' => 3,
                     ])->footerActions([
-                        fn (string $operation): Action => Action::make('save')
+                        fn(string $operation): Action => Action::make('save')
                             ->action(function (Section $component, EditRecord $livewire) {
                                 $livewire->saveFormComponentOnly($component);
 
@@ -305,8 +305,7 @@ class AssetResource extends Resource
                                     ->send();
                             })
                             ->visible($operation === 'edit'),
-                    ])
-                    ,
+                    ]),
 
             ]);
 
@@ -339,7 +338,7 @@ class AssetResource extends Resource
                 TextColumn::make('assetlifecycle.status')->label('Status')->searchable()->sortable()
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'Available' => 'success',
                         'Deployed' => 'primary',
                         'For Repair' => 'warning',
@@ -404,7 +403,8 @@ class AssetResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                     ExportBulkAction::make()
                         ->exports([
-                            ExcelExport::make()->withFilename(date('Y-m-d') . ' - asset')])
+                            ExcelExport::make()->withFilename(date('Y-m-d') . ' - asset')
+                        ])
                         ->label('Export Excel')
                         ->color('success')
                 ]),

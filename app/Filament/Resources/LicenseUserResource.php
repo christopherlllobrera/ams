@@ -43,7 +43,7 @@ class LicenseUserResource extends Resource
                 ->schema([
                        Select::make('license_id')
                             ->required()
-                            ->options(Licenses::query()->pluck('company_number', 'id')),
+                            ->options(Licenses::query()->pluck('software_name', 'id')),
                             Select::make('name')->label('Full Name')
                             ->options(User::query()->pluck('name', 'id'))
                             ->searchable()->preload()->disabledOn('edit')->dehydrated()
@@ -104,7 +104,14 @@ class LicenseUserResource extends Resource
                         TextInput::make('wbs')->label('WBS')->hint('Work Breakdown Structure')
                             ->placeholder('WBS')->reactive()->disabled()->dehydrated(),
                         Hidden::make('seat_used')->default(1)->disabled()->dehydrated(),
-                    ])
+                    ])->columns([
+                        'default' => 2,
+                        'sm' => 2,
+                        'md' => 2,
+                        'lg' => 2,
+                        'xl' => 2,
+                        '2xl' => 2,
+                        ])
             ]);
     }
 
