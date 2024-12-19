@@ -13,4 +13,9 @@ class AssetCategories extends Model
         'asset_type',
         'categories',
     ];
+
+    public function assetcategories()
+    {
+        return $this->hasMany(AssetCategories::class);
+    }
 }

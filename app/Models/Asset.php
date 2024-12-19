@@ -63,6 +63,10 @@ class Asset extends Model
     public function AssetModel(){
         return $this->belongsTo(AssetModel::class);
     }
+    public function assetcategories()
+    {
+        return $this->belongsTo(AssetCategories::class);
+    }
     public function assetlifecycle()
     {
         return $this->belongsTo(AssetLifeCycle::class);
